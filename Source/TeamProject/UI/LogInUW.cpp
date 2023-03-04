@@ -14,6 +14,8 @@ void ULogInUW::NativeConstruct()
 	if (!PortBtn)
 		return;
 	PortBtn->OnClicked.AddDynamic(this, &ULogInUW::PortConnBtnClicked);
+
+	TurnOffUW();
 	//LogInBtn->SetVisibility(ESlateVisibility::Collapsed);
 }
 

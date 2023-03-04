@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../ChatacterController/MonsterController.h"
 #include "Monster.generated.h"
 
 UCLASS()
@@ -18,12 +19,13 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
+	virtual void PostInitializeComponents() override;
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	void virtual NotifyActorBeginOverlap(AActor* OtherActor)override;
+	void MoveFoward();
 };
