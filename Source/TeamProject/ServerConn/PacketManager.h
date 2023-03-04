@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../ServerConn/Packet.h"
+#include "SocketManager.h"
 
-/**
- * 
- */
 class TEAMPROJECT_API PacketManager
 {
+private:
+	//SocketManager& SocketManager;
+
 public:
 	static PacketManager& GetInstance() {
 		static PacketManager i;
@@ -18,5 +20,6 @@ public:
 	PacketManager();
 	~PacketManager();
 
-	void SendLogin(const FString& inID);
+	void MakeLoginPacket(const FString& inID);
+
 };

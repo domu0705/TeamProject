@@ -14,10 +14,10 @@ ATeamProjectGameMode::ATeamProjectGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
-	//DefaultPawnClass = ATPCharacter::StaticClass();
-	PlayerControllerClass = ATPPlayerController::StaticClass();
+	DefaultPawnClass = ATPCharacter::StaticClass();
+	//PlayerControllerClass = ATPPlayerController::StaticClass();
 
-	warningBoxManager = WarningBoxManager::GetInstance();
+	//warningBoxManager = WarningBoxManager::GetInstance();
 }
 
 void ATeamProjectGameMode::Tick(float DeltaSeconds)
@@ -30,10 +30,12 @@ void ATeamProjectGameMode::Tick(float DeltaSeconds)
 
 void ATeamProjectGameMode::BeginPlay()
 {
-	warningBoxManager.BeginPlay();
+	WarningBoxManager& WarningBoxManager = WarningBoxManager::GetInstance();
+	WarningBoxManager.BeginPlay();
 
-	UWManager = UserWidgetManager::GetInstance();
+	UserWidgetManager& UserWidgetManager =  UserWidgetManager::GetInstance();
+	UserWidgetManager = UserWidgetManager::GetInstance();
 
 	//UI »ý¼º
-	UWManager.CreateLogInUW(GetWorld());
+	UserWidgetManager.CreateLogInUW(GetWorld());
 }

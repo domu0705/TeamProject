@@ -14,8 +14,8 @@ class ATeamProjectGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 private:
-	UserWidgetManager UWManager;
-	WarningBoxManager warningBoxManager;
+	//UserWidgetManager& UWManager;
+	//WarningBoxManager& warningBoxManager;
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;

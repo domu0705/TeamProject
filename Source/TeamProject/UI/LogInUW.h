@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "..//ServerConn/PacketManager.h"
+#include "../ServerConn/SocketManager.h"
 #include "Blueprint/UserWidget.h"
 #include "Runtime/UMG/Public/Components/Button.h"
 #include "Runtime/UMG/Public/Components/EditableTextBox.h"
@@ -20,15 +21,19 @@ class TEAMPROJECT_API ULogInUW : public UUserWidget
 protected:
 	UFUNCTION()
 		void LogInBtnClicked();
-	PacketManager PacketManager;
+
+	UFUNCTION()
+		void PortConnBtnClicked();
+
+	//PacketManager PacketManager;
 
 public:
 	void NativeConstruct() override;
 
 	UPROPERTY(meta = (BindWidget))
 		UButton* LogInBtn = nullptr;
-	//UPROPERTY(meta = (BindWidget))
-	//	UButton* PortBtn = nullptr;
+	UPROPERTY(meta = (BindWidget))
+		UButton* PortBtn = nullptr;
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 		UEditableTextBox* IDEditText;
 

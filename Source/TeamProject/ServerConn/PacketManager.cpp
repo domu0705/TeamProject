@@ -12,9 +12,11 @@ PacketManager::~PacketManager()
 }
 
 //로그인 요청
-void PacketManager::SendLogin(const FString& inID)
+void PacketManager::MakeLoginPacket(const FString& inID)
 {
 	UE_LOG(LogTemp,Log,TEXT("@@ PacketManager::SendLogin() | id : %s"),*inID)
 	//FString command = FString::Printf(TEXT("LOGIN %s\r\n"), *inID);
-	//Send(command);
+	LoginPacket loginPacket(inID);
+	SocketManager& SocketManager = SocketManager::GetInstance();
+	SocketManager.sendPacket(loginPacket);
 }

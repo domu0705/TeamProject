@@ -20,16 +20,17 @@ SocketManager::~SocketManager()
 
 }
 
+/*
 //서버로 데이터 전송 
 void SocketManager::Send(FString& string)
 {
 	char message[BUFFER_SIZE];
 	const wchar_t* encode = *string;
 	char defaultSetting = '?';
-
 	int32 len = WideCharToMultiByte(CP_ACP, 0, encode, -1, NULL, 0, NULL, NULL);
 	WideCharToMultiByte(CP_ACP, 0, encode, -1, message, len, &defaultSetting, NULL);
 	int32 bytesSents = 0;
+
 
 	bool IsSended = socket->Send((uint8*)(message), len, bytesSents);
 
@@ -42,13 +43,9 @@ void SocketManager::Send(FString& string)
 		UE_LOG(LogTemp, Error, TEXT("Failed to send message"));
 	}
 }
+		*/
 
 //로그인 요청
-void SocketManager::SendLogin(const FString& name)
-{
-	FString command = FString::Printf(TEXT("LOGIN %s\r\n"), *name);
-	Send(command);
-}
 
 //지정된 주소로 연결
 bool SocketManager::ConnectServer()
