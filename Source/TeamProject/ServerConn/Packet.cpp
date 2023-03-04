@@ -5,7 +5,8 @@
 
 LoginPacket::LoginPacket(FString inUserID)
 {
-	packetSize = sizeof(int) + sizeof(PacketID) + sizeof(FString);
+	FTCHARToUTF8 Converted(*inUserID);
+	packetSize = sizeof(unsigned short) + sizeof(PacketID) + Converted.Length();
 	packetID = PacketID::LOGIN;
 	userID = inUserID;
 }

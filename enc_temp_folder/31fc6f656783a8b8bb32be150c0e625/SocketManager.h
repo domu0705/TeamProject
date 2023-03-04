@@ -51,7 +51,7 @@ public:
 		int32 len = FCStringAnsi::Strlen(multiByteString);
 
 		socket->Send((uint8*)(multiByteString), len, bytesSents);
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
+		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), len);
 		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
 	}
 };
