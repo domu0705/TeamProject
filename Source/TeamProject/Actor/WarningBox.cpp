@@ -50,7 +50,7 @@ void AWarningBox::CheckTurnOffBox()
 	if (isTurnOn == false)
 		return;
 	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::TurnOffBox() %s %d"), *this->GetName(), turnOnTime);
-	if (timer.GetCurTime() > turnOnTime + 10)
+	if (timer.GetCurTime() > turnOnTime + 3)
 	{
 		TurnOffBox();
 	}

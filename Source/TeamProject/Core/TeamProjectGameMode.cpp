@@ -2,6 +2,7 @@
 
 #include "TeamProjectGameMode.h"
 #include "../Character/TPCharacter.h"
+#include "../ChatacterController/TPPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 
 ATeamProjectGameMode::ATeamProjectGameMode()
@@ -14,6 +15,7 @@ ATeamProjectGameMode::ATeamProjectGameMode()
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
 	//DefaultPawnClass = ATPCharacter::StaticClass();
+	PlayerControllerClass = ATPPlayerController::StaticClass();
 
 	warningBoxManager = WarningBoxManager::GetInstance();
 }
@@ -29,4 +31,9 @@ void ATeamProjectGameMode::Tick(float DeltaSeconds)
 void ATeamProjectGameMode::BeginPlay()
 {
 	warningBoxManager.BeginPlay();
+
+	UWManager = UserWidgetManager::GetInstance();
+
+	//UI »ý¼º
+	UWManager.CreateLogInUW(GetWorld());
 }

@@ -20,7 +20,7 @@ void WarningBoxManager::BeginPlay()
 void WarningBoxManager::AddBoxToAry(AWarningBox* box)
 {
 	boxAry.Add(box);
-	//TurnOnBoxes(1, 0); //테스트용
+	TurnOnBoxes(0, 1); //테스트용
 }
 
 void WarningBoxManager::TurnOnBoxes(int32 col,int32 row)
