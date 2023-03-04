@@ -24,6 +24,7 @@ void ULogInUW::LogInBtnClicked()
 	int32 tempCnt = FCString::Atoi(*idStr);
 	PacketManager& PacketManager = PacketManager::GetInstance();
 	PacketManager.MakeLoginPacket(idStr);
+	TurnOffUW();
 }
 
 //포트 연결 요청
@@ -41,4 +42,10 @@ void ULogInUW::PortConnBtnClicked()
 	{
 		UE_LOG(LogTemp, Log, TEXT("@@@ port conn failed"));
 	}
+}
+
+void ULogInUW::TurnOffUW()
+{
+	this->SetVisibility(ESlateVisibility::Collapsed);
+	//LoginUI->SetVisibility(ESlateVisibility::Collapsed);
 }

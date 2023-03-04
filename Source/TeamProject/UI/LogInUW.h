@@ -37,4 +37,5 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 		UEditableTextBox* IDEditText;
 
+	void TurnOffUW();
 };

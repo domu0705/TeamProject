@@ -12,6 +12,12 @@ UCharacterStatComponent::UCharacterStatComponent()
 	bWantsInitializeComponent = true;//InitializeComponent() È£Ãâ À§ÇÔ
 }
 
+void UCharacterStatComponent::InitializeComponent()
+{
+	Super::InitializeComponent();
+
+	SetStat();
+}
 
 // Called when the game starts
 void UCharacterStatComponent::BeginPlay()
@@ -21,14 +27,6 @@ void UCharacterStatComponent::BeginPlay()
 	// ...
 
 }
-
-void UCharacterStatComponent::InitializeComponent()
-{
-	Super::InitializeComponent();
-
-	SetStat();
-}
-
 
 // Called every frame
 void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -40,6 +38,20 @@ void UCharacterStatComponent::TickComponent(float DeltaTime, ELevelTick TickType
 
 void UCharacterStatComponent::SetStat()
 {
-	MaxHP = 2;
+	MaxHP = 3;
 	CurrentHP = MaxHP;
+}
+
+void UCharacterStatComponent::GetDamage()
+{
+	if (CurrentHP <= 1)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Current HEalth = %d -> Do die"), CurrentHP);
+	}
+	else
+	{
+		--CurrentHP;
+		UE_LOG(LogTemp, Log, TEXT("Current HEalth = %d"), CurrentHP);
+	}
+
 }

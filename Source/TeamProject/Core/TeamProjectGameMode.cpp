@@ -14,7 +14,7 @@ ATeamProjectGameMode::ATeamProjectGameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
-	DefaultPawnClass = ATPCharacter::StaticClass();
+
 	//PlayerControllerClass = ATPPlayerController::StaticClass();
 
 	//warningBoxManager = WarningBoxManager::GetInstance();
