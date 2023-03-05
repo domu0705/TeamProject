@@ -53,4 +53,6 @@ private:
 		bool isTurnOn;
 	UPROPERTY(EditAnywhere, Category = Info)//category는 UE에서 보이는 항목의 이름을 설정하는 것임.
 		int32 turnOnTime;
+	UPROPERTY(EditAnywhere, Category = Info)//warning이 켜져있는 시간
+		int32 turnOnDuration;
 };

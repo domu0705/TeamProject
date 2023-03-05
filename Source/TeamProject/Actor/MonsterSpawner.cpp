@@ -55,7 +55,7 @@ void AMonsterSpawner::SpawnMonster()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	auto newMonster = GetWorld()->SpawnActor<AMonster>(monsterClass, bodyPos, bodyRot, SpawnParams);
+	AMonster* newMonster = GetWorld()->SpawnActor<AMonster>(monsterClass, bodyPos, bodyRot, SpawnParams);
 	//auto newMonster = GetWorld()->SpawnActor<AMonster>(monsterClass, FVector::ZeroVector, FRotator::ZeroRotator);
 	//UE_LOG(LogTemp, Log, TEXT("@@@SpawnMonster()"));
 	UE_LOG(LogTemp, Warning, TEXT("New monster spawned at location (%f, %f, %f)"), bodyPos.X, bodyPos.Y, bodyPos.Z);

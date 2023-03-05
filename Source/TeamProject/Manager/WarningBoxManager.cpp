@@ -27,13 +27,19 @@ void WarningBoxManager::BeginPlay()
 
 void WarningBoxManager::Tick()
 {
-	CheckTurnOffBox();
+	//CheckTurnOffBox();
 }
 
 void WarningBoxManager::AddBoxToAry(AWarningBox* box)
 {
 	boxAry.Add(box);
-	TurnOnBoxes(0, 3,0); //테스트용
+	if (boxAry.Num()<48)
+		return;
+
+	//col,row,dir
+	TurnOnBoxes(0, 3,0); //테스트용. 지금은 이거 여러번 불림
+	TurnOnBoxes(2, 0, 1);
+	TurnOnBoxes(0, 5, 0);
 }
 
 void WarningBoxManager::AddMonsterSpawnerToAry(AMonsterSpawner* spawner)
@@ -41,19 +47,12 @@ void WarningBoxManager::AddMonsterSpawnerToAry(AMonsterSpawner* spawner)
 	spawnerAry.Add(spawner);
 }
 
-
-void  WarningBoxManager::SetCurInfo(int32 inCol, int32 inRow, int32 inDir)
-{
-	curCol = inCol;
-	curRow = inRow;
-	curDir = inDir;
-}
-
 void WarningBoxManager::TurnOnBoxes(int32 col,int32 row,int32 dir)
 {
+	warningAry.Add({ col,row,dir });
 	turnOnTime = timer->GetCurTime();
 	isTurnOn = true;
-	SetCurInfo(col, row, dir);
+	//SetCurInfo(col, row, dir);
 
 	UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnBoxes()"));
 	
@@ -70,49 +69,19 @@ void WarningBoxManager::TurnOnBoxes(int32 col,int32 row,int32 dir)
 	}
 }
 
-void WarningBoxManager::CheckTurnOffBox()
-{
-	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::TurnOnBox() %d %d %"), turnOnTime, timer->GetCurTime());
-	if (isTurnOn == false)
-	{
-		UE_LOG(LogTemp, Log, TEXT("isturnon false"));
-		return;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Log, TEXT("isturnon true"));
-	}
-
-	if (timer->GetCurTime() > turnOnTime + duration)
-	{
-		UE_LOG(LogTemp, Log, TEXT("&& AWarningBox::CheckTurnOffBox() %d"),turnOnTime);
-		TurnOffBoxes();
-	}
-}
-
-void WarningBoxManager::TurnOffBoxes()
-{
-	isTurnOn = false;
-
-	for (int i = 0; i < boxAry.Num(); i++)
-	{
-		if (boxAry[i]->GetRow() == curRow || boxAry[i]->GetCol() == curCol)
-		{
-			UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOffBoxes()"));
-			boxAry[i]->SetActorHiddenInGame(true);
-		}
-	}
-	TurnOnSpawner();
-}
-
 void WarningBoxManager::TurnOnSpawner()
 {
+	UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnSpawner()"));
+	
 	for (int i = 0; i < spawnerAry.Num(); i++)
 	{
-		if (spawnerAry[i]->GetRowNum()  == curRow && spawnerAry[i]->GetColNum() == curCol && spawnerAry[i]->GetSpawnerDir() == curDir)
+		if (warningAry.Num() == 0)//TurnOnBoxes 가 테스트에서는 과하게 많이 불려서 이거 검사함
+			return;
+		if (spawnerAry[i]->GetColNum()  == warningAry[0][0] && spawnerAry[i]->GetRowNum() == warningAry[0][1] && spawnerAry[i]->GetSpawnerDir() == warningAry[0][2])
 		{
-			UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOffBoxes()"));
+			UE_LOG(LogTemp, Log, TEXT("@@ CALL SpawnMonster()"));
 			spawnerAry[i]->SpawnMonster();
+			warningAry.RemoveAt(0);
 		}
 	}
 }

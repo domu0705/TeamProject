@@ -17,14 +17,11 @@ private:
 	TArray<AWarningBox*> boxAry;
 	//TArray<AMonster*> monsterAry;
 	TArray<AMonsterSpawner*> spawnerAry;
+	TArray<TArray<int32>> warningAry; // 몬스터 스폰을 위해 워닝 정보 저장{ {0, 1, 0}, {1,0,1}}
 	Timer* timer;
 	int32 	turnOnTime ;//warning box 가 켜진 시간
 	int32 duration;//warning box 가 켜저있는 시간
 	bool isTurnOn;
-
-	int32 curCol;
-	int32 curRow;
-	int32 curDir;
 
 public:
 	static WarningBoxManager* GetInstance() {
@@ -40,9 +37,7 @@ public:
 	void Tick();
 	void AddBoxToAry(AWarningBox* box);
 	void AddMonsterSpawnerToAry(AMonsterSpawner* monster);
-	void SetCurInfo(int32 inCol, int32 inRow, int32 inDir);
 	void TurnOnBoxes(int32 col, int32 row, int32 dir);
 	void TurnOffBoxes();
-	void CheckTurnOffBox();
 	void TurnOnSpawner();
 };
