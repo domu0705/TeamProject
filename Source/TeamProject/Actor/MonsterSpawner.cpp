@@ -3,7 +3,7 @@
 
 #include "MonsterSpawner.h"
 #include "../Character/Monster.h"
-
+#include "../Manager/WarningBoxManager.h"
 
 // Sets default values
 AMonsterSpawner::AMonsterSpawner()
@@ -11,15 +11,17 @@ AMonsterSpawner::AMonsterSpawner()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BODY"));
-
 	monsterClass = AMonster::StaticClass();
+
+	WarningBoxManager = WarningBoxManager::GetInstance();
 }
 
 // Called when the game starts or when spawned
 void AMonsterSpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	SpawnMonster();
+	WarningBoxManager->AddMonsterSpawnerToAry(this);
+	//SpawnMonster();
 }
 
 // Called every frame
@@ -27,6 +29,21 @@ void AMonsterSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+int32 AMonsterSpawner::GetColNum()
+{
+	return colNum;
+}
+
+int32 AMonsterSpawner::GetRowNum()
+{
+	return rowNum;
+}
+
+int32 AMonsterSpawner::GetSpawnerDir()
+{
+	return dirNum;
 }
 
 void AMonsterSpawner::SpawnMonster()

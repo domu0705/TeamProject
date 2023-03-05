@@ -25,7 +25,7 @@ void AWarningBox::BeginPlay()
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Log, TEXT("** AWarningBox::BeginPlay()"));
 	boxManager->AddBoxToAry(this);
-	//boxManager->AddBoxToAry(this);
+
 	//isTurnOn = false;
 	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::BeginPlay()"));
 	//TurnOffBox();

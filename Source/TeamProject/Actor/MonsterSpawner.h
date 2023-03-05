@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "MonsterSpawner.generated.h"
 
+class WarningBoxManager;
+
 UCLASS()
 class TEAMPROJECT_API AMonsterSpawner : public AActor
 {
@@ -14,6 +16,9 @@ class TEAMPROJECT_API AMonsterSpawner : public AActor
 public:
 	// Sets default values for this actor's properties
 	AMonsterSpawner();
+
+private:
+	WarningBoxManager* WarningBoxManager;
 
 protected:
 	// Called when the game starts or when spawned
@@ -28,8 +33,13 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		TSubclassOf<class AMonster> monsterClass;
 	UPROPERTY(EditAnywhere, Category = Position)
-		int32 spawnerNum;// 1~7
+		int32 rowNum;// 1~7
+		UPROPERTY(EditAnywhere, Category = Position)
+		int32 colNum;// 1~7
 	UPROPERTY(EditAnywhere, Category = Position)
-		int32 spawnerDir;//0 or 1 (상/하  좌/우 스폰 위치 구분)
+		int32 dirNum;//0 or 1 (상/하  좌/우 스폰 위치 구분)
+	int32 GetRowNum();
+	int32 GetColNum();
+	int32 GetSpawnerDir();
 	void SpawnMonster();
 };

@@ -6,7 +6,6 @@
 
 WarningBoxManager::WarningBoxManager()
 {
-	UE_LOG(LogTemp, Log, TEXT("** WarningBoxManager::WarningBoxManager()"));
 	timer = Timer::GetInstance();
 }
 
@@ -16,8 +15,8 @@ WarningBoxManager::~WarningBoxManager()
 
 void WarningBoxManager::Init()
 {
-	UE_LOG(LogTemp, Log, TEXT("**WarningBoxManager::BeginPlay()"));
 	boxAry .Empty();
+	spawnerAry.Empty();
 	isTurnOn = false;
 	duration = 5;
 }
@@ -34,12 +33,12 @@ void WarningBoxManager::Tick()
 void WarningBoxManager::AddBoxToAry(AWarningBox* box)
 {
 	boxAry.Add(box);
-	TurnOnBoxes(0, 1,0); //테스트용
+	TurnOnBoxes(0, 3,0); //테스트용
 }
 
-void WarningBoxManager::AddMonsterToAry(AMonster* monster)
+void WarningBoxManager::AddMonsterSpawnerToAry(AMonsterSpawner* spawner)
 {
-	monsterAry.Add(monster);
+	spawnerAry.Add(spawner);
 }
 
 
@@ -101,6 +100,19 @@ void WarningBoxManager::TurnOffBoxes()
 		{
 			UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOffBoxes()"));
 			boxAry[i]->SetActorHiddenInGame(true);
+		}
+	}
+	TurnOnSpawner();
+}
+
+void WarningBoxManager::TurnOnSpawner()
+{
+	for (int i = 0; i < spawnerAry.Num(); i++)
+	{
+		if (spawnerAry[i]->GetRowNum()  == curRow && spawnerAry[i]->GetColNum() == curCol && spawnerAry[i]->GetSpawnerDir() == curDir)
+		{
+			UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOffBoxes()"));
+			spawnerAry[i]->SpawnMonster();
 		}
 	}
 }

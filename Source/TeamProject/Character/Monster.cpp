@@ -35,8 +35,6 @@ void AMonster::PostInitializeComponents()
 	}
 }
 
-
-
 // Called when the game starts or when spawned
 void AMonster::BeginPlay()
 {
@@ -63,6 +61,7 @@ void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
 	FString  name = OtherActor->GetName();
 	//UE_LOG(LogTemp, Log, TEXT("!! AMonster::NotifyActorBeginOverlap name = %s"), *name);
 }
+
 
 void AMonster::MoveFoward()
 {

@@ -6,6 +6,7 @@
 #include "CoreMinimal.h"
 #include "../Core/Timer.h"
 #include "../Character/Monster.h"
+#include "../Actor/MonsterSpawner.h"
 
 class AWarningBox;
 
@@ -14,7 +15,8 @@ class TEAMPROJECT_API WarningBoxManager
 
 private:
 	TArray<AWarningBox*> boxAry;
-	TArray<AMonster*> monsterAry;
+	//TArray<AMonster*> monsterAry;
+	TArray<AMonsterSpawner*> spawnerAry;
 	Timer* timer;
 	int32 	turnOnTime ;//warning box 가 켜진 시간
 	int32 duration;//warning box 가 켜저있는 시간
@@ -37,9 +39,10 @@ public:
 	void BeginPlay();
 	void Tick();
 	void AddBoxToAry(AWarningBox* box);
-	void AddMonsterToAry(AMonster* monster);
+	void AddMonsterSpawnerToAry(AMonsterSpawner* monster);
 	void SetCurInfo(int32 inCol, int32 inRow, int32 inDir);
 	void TurnOnBoxes(int32 col, int32 row, int32 dir);
 	void TurnOffBoxes();
 	void CheckTurnOffBox();
+	void TurnOnSpawner();
 };
