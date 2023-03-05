@@ -6,14 +6,14 @@
 // Sets default values
 AWarningBox::AWarningBox()//여기서 초기화 안됨. 이 이후에 블프 값으로 다시 초기화 됨
 {
+	UE_LOG(LogTemp, Log, TEXT("** AWarningBox::AWarningBox()"));
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BODY"));
 
 	RootComponent = body;//없어도 됨
-	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox() %s"), *this->GetName())
-	isTurnOn = false;
+	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox() %s"), *this->GetName())
 
 	boxManager = WarningBoxManager::GetInstance();
 	timer = Timer::GetInstance();
@@ -22,26 +22,37 @@ AWarningBox::AWarningBox()//여기서 초기화 안됨. 이 이후에 블프 값
 // Called when the game starts or when spawned
 void AWarningBox::BeginPlay()
 {
-	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::BeginPlay()"));
-	TurnOffBox();
-	boxManager.AddBoxToAry(this);
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Log, TEXT("** AWarningBox::BeginPlay()"));
+	boxManager->AddBoxToAry(this);
+	//boxManager->AddBoxToAry(this);
+	//isTurnOn = false;
+	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::BeginPlay()"));
+	//TurnOffBox();
 }
 
 // Called every frame
 void AWarningBox::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	CheckTurnOffBox();
+	//CheckTurnOffBox();
+}
+
+void AWarningBox::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	//isTurnOn = false;
+	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::BeginPlay()"));
+	TurnOffBox();
 }
 
 void AWarningBox::TurnOnBox()
 {
 	//turnOnTime = timer.GetTIme();
-	turnOnTime = timer.GetCurTime();
-	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::TurnOnBox() %s %d %d"), *this->GetName(),turnOnTime, timer.GetCurTime());
+	turnOnTime = timer->GetCurTime();
+	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::TurnOnBox() %s %d %d"), *this->GetName(), turnOnTime, timer->GetCurTime());
 	SetActorHiddenInGame(false);
-	isTurnOn = true;
+	//isTurnOn = true;
 }
 
 //warning box가 끌수 있는 환경인지 검사
@@ -49,8 +60,8 @@ void AWarningBox::CheckTurnOffBox()
 {
 	if (isTurnOn == false)
 		return;
-	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::TurnOffBox() %s %d"), *this->GetName(), turnOnTime);
-	if (timer.GetCurTime() > turnOnTime + 3)
+	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::TurnOffBox() %s %d"), *this->GetName(), turnOnTime);
+	if (timer->GetCurTime() > turnOnTime + 3)
 	{
 		TurnOffBox();
 	}

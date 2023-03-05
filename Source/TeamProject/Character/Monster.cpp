@@ -31,7 +31,7 @@ void AMonster::PostInitializeComponents()
 	{
 		// Set the collision profile to "MyCollisionProfile"
 		RootComp->SetCollisionProfileName(FName("Monster"));
-		UE_LOG(LogTemp, Log, TEXT("@@@ AMonster::SetCollisionProfileName()"));
+		//UE_LOG(LogTemp, Log, TEXT("@@@ AMonster::SetCollisionProfileName()"));
 	}
 }
 
@@ -61,7 +61,7 @@ void AMonster::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	FString  name = OtherActor->GetName();
-	UE_LOG(LogTemp, Log, TEXT("!! AMonster::NotifyActorBeginOverlap name = %s"), *name);
+	//UE_LOG(LogTemp, Log, TEXT("!! AMonster::NotifyActorBeginOverlap name = %s"), *name);
 }
 
 void AMonster::MoveFoward()

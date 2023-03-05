@@ -26,6 +26,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	virtual void PostInitializeComponents()override;
 	void TurnOnBox();
 	void TurnOffBox();
 	void CheckTurnOffBox();
@@ -40,8 +41,8 @@ public:
 	//void virtual NotifyActorBeginOverlap(AActor* OtherActor)override;
 
 private:
-	WarningBoxManager boxManager;
-	Timer timer;
+	WarningBoxManager* boxManager;
+	Timer* timer;
 
 	//bool bHidden;
 	UPROPERTY(EditAnywhere, Category = Position)//category는 UE에서 보이는 항목의 이름을 설정하는 것임.

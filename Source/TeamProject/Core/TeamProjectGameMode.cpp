@@ -7,7 +7,9 @@
 
 ATeamProjectGameMode::ATeamProjectGameMode()
 {
-	UE_LOG(LogTemp, Log, TEXT("@@ATeamProjectGameMode::ATeamProjectGameMode()"));
+
+	UE_LOG(LogTemp, Log, TEXT("**ATeamProjectGameMode::ATeamProjectGameMode()"));
+	PrimaryActorTick.bCanEverTick = true;
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/ThirdPersonCPP/Blueprints/ThirdPersonCharacter"));
 	if (PlayerPawnBPClass.Class != NULL)
@@ -17,7 +19,14 @@ ATeamProjectGameMode::ATeamProjectGameMode()
 
 	//PlayerControllerClass = ATPPlayerController::StaticClass();
 
-	//warningBoxManager = WarningBoxManager::GetInstance();
+	warningBoxManager = WarningBoxManager::GetInstance();
+	CallClassInit();
+
+}
+
+void ATeamProjectGameMode::CallClassInit()
+{
+	warningBoxManager->Init();
 }
 
 void ATeamProjectGameMode::Tick(float DeltaSeconds)
@@ -26,16 +35,24 @@ void ATeamProjectGameMode::Tick(float DeltaSeconds)
 	//if (!SocketManager)
 	//	return;
 	//SocketManager->Tick();
+	//UE_LOG(LogTemp, Log, TEXT("@@ATeamProjectGameMode::Tick()"));
+	warningBoxManager->Tick();
 }
 
 void ATeamProjectGameMode::BeginPlay()
 {
-	WarningBoxManager& WarningBoxManager = WarningBoxManager::GetInstance();
-	WarningBoxManager.BeginPlay();
+	Super::BeginPlay();
 
-	UserWidgetManager& UserWidgetManager =  UserWidgetManager::GetInstance();
-	UserWidgetManager = UserWidgetManager::GetInstance();
+	WarningBoxManager* WarningBoxManager = WarningBoxManager::GetInstance();
+	if (!WarningBoxManager)
+		return;
+	WarningBoxManager->BeginPlay();
+
+	UserWidgetManager* UserWidgetManager =  UserWidgetManager::GetInstance();
+	if (!UserWidgetManager)
+		return;
+	//UserWidgetManager = UserWidgetManager::GetInstance();
 
 	//UI »ý¼º
-	UserWidgetManager.CreateLogInUW(GetWorld());
+	UserWidgetManager->CreateLogInUW(GetWorld());
 }

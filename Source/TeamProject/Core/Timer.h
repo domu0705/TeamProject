@@ -15,9 +15,9 @@ private:
 		int32 curTime;
 
 public:
-	static Timer& GetInstance() {
-		static Timer i;
-		return i;
+	static Timer* GetInstance() {
+		static Timer s;
+		return &s;
 	}
 
 	Timer();

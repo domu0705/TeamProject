@@ -35,6 +35,6 @@ int32 Timer::GetCurTime()
 	struct tm* t = localtime(&timer);
 
 	int32 sec = t->tm_sec;
-	UE_LOG(LogTemp, Log, TEXT("@@ Timer::GetCurTime() sec %d "),sec)
+	//UE_LOG(LogTemp, Log, TEXT("@@ Timer::GetCurTime() sec %d "),sec)
 	return sec;
 }

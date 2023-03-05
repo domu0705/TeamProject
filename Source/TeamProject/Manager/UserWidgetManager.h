@@ -16,9 +16,9 @@ private:
 	ULogInUW* LoginUW;
 
 public:
-	static UserWidgetManager& GetInstance() {
-		static UserWidgetManager i;
-		return i;
+	static UserWidgetManager* GetInstance() {
+		static UserWidgetManager s;
+		return &s;
 	}
 
 	UserWidgetManager();
