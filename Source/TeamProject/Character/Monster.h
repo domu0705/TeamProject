@@ -26,7 +26,7 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void virtual NotifyActorBeginOverlap(AActor* OtherActor)override;

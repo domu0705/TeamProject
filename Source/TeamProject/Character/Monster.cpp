@@ -78,6 +78,11 @@ void AMonster::MoveFoward()
 	AddMovementInput(Direction, true);
 }
 
+void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+
+}
+
 /*
 void ATeamProjectCharacter::MoveForward(float Value)
 {
