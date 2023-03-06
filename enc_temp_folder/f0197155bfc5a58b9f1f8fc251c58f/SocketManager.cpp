@@ -135,22 +135,12 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 		Packet::LoginRequestPacket p = *(Packet::LoginRequestPacket*)(packet);
 		int32 bytesSents = 0;
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
-
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
-		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
-
-		break;
 	}
 	case Packet::PacketID::JOINROOMREQUEST:
 	{
 		Packet::JoinRoomRequestPacket p = *(Packet::JoinRoomRequestPacket*)(packet);
 		int32 bytesSents = 0;
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
-
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
-		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
-
-		break;
 	}
 	default:
 	{
