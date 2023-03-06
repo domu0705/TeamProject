@@ -17,7 +17,7 @@ AWarningBox::AWarningBox()//여기서 초기화 안됨. 이 이후에 블프 값
 
 	boxManager = WarningBoxManager::GetInstance();
 	timer = Timer::GetInstance();
-	turnOnDuration = 5;
+	turnOnDuration = 3;
 }
 
 // Called when the game starts or when spawned
@@ -34,7 +34,7 @@ void AWarningBox::BeginPlay()
 void AWarningBox::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	CheckTurnOffBox();
+	//heckTurnOffBox();
 }
 
 void AWarningBox::PostInitializeComponents()
@@ -57,7 +57,7 @@ void AWarningBox::CheckTurnOffBox()
 {
 	if (isTurnOn == false)
 		return;
-	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::CheckTurnOffBox() %s %d"), *this->GetName(), turnOnTime);
+	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::CheckTurnOffBox() %s %d"), *this->GetName(), turnOnTime);
 	if (timer->GetCurTime() > turnOnTime + turnOnDuration)
 	{
 		TurnOffBox();
@@ -70,7 +70,7 @@ void AWarningBox::TurnOffBox()
 	UE_LOG(LogTemp, Log, TEXT("## AWarningBox::TurnOffBox()"), *this->GetName(), turnOnTime);
 	SetActorHiddenInGame(true);
 	isTurnOn = false;
-	boxManager->TurnOnSpawner();
+	//boxManager->TurnOnSpawner();
 }
 
 int32 AWarningBox::GetRow()

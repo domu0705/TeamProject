@@ -18,7 +18,7 @@ void WarningBoxManager::Init()
 	boxAry .Empty();
 	spawnerAry.Empty();
 	isTurnOn = false;
-	duration = 5; //언리얼로 빼보기
+	duration = 4;
 }
 
 void WarningBoxManager::BeginPlay()
@@ -27,7 +27,7 @@ void WarningBoxManager::BeginPlay()
 
 void WarningBoxManager::Tick()
 {
-	//CheckTurnOffBox();
+	CheckTurnOffBox();
 }
 
 void WarningBoxManager::AddBoxToAry(AWarningBox* box)
@@ -51,10 +51,10 @@ void WarningBoxManager::TurnOnBoxes(int32 col,int32 row,int32 dir)
 {
 	warningAry.Add({ col,row,dir });
 	turnOnTime = timer->GetCurTime();
-	isTurnOn = true;
+//	isTurnOn = true;
 	//SetCurInfo(col, row, dir);
 
-	UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnBoxes()"));
+	//UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnBoxes()"));
 	
 	for (int i = 0; i < boxAry.Num(); i++)
 	{
@@ -69,19 +69,50 @@ void WarningBoxManager::TurnOnBoxes(int32 col,int32 row,int32 dir)
 	}
 }
 
-void WarningBoxManager::TurnOnSpawner()
+void WarningBoxManager::CheckTurnOffBox()//안씀
+{;
+	if (warningAry.Num() == 0)
+	{
+		UE_LOG(LogTemp, Log, TEXT("isturnon false"));
+		return;
+	}
+
+	if (timer->GetCurTime() > turnOnTime + duration)
+	{
+		UE_LOG(LogTemp, Log, TEXT("&& AWarningBox::CheckTurnOffBox() %d"), turnOnTime);
+		TurnOffBoxes();
+	}
+}
+
+void WarningBoxManager::TurnOffBoxes()
 {
-	UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnSpawner()"));
-	
-	for (int i = 0; i < spawnerAry.Num(); i++)
+	for (int i = 0; i < boxAry.Num(); i++)
 	{
 		if (warningAry.Num() == 0)//TurnOnBoxes 가 테스트에서는 과하게 많이 불려서 이거 검사함
 			return;
+		if (boxAry[i]->GetRow() == warningAry[0][1] || boxAry[i]->GetCol() == warningAry[0][0])
+		{
+			UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOffBoxes()"));
+			boxAry[i]->SetActorHiddenInGame(true);
+		}
+	}
+	TurnOnSpawner();
+}
+
+void WarningBoxManager::TurnOnSpawner()
+{
+	UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnSpawner()"));
+	if (warningAry.Num() == 0)//TurnOnBoxes 가 테스트에서는 과하게 많이 불려서 이거 검사함
+		return;
+
+	for (int i = 0; i < spawnerAry.Num(); i++)
+	{
+		
 		if (spawnerAry[i]->GetColNum()  == warningAry[0][0] && spawnerAry[i]->GetRowNum() == warningAry[0][1] && spawnerAry[i]->GetSpawnerDir() == warningAry[0][2])
 		{
 			UE_LOG(LogTemp, Log, TEXT("@@ CALL SpawnMonster()"));
 			spawnerAry[i]->SpawnMonster();
-			warningAry.RemoveAt(0);
 		}
 	}
+	warningAry.RemoveAt(0);
 }

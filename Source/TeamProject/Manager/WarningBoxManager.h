@@ -38,6 +38,7 @@ public:
 	void AddBoxToAry(AWarningBox* box);
 	void AddMonsterSpawnerToAry(AMonsterSpawner* monster);
 	void TurnOnBoxes(int32 col, int32 row, int32 dir);
+	void CheckTurnOffBox();
 	void TurnOffBoxes();
 	void TurnOnSpawner();
 };

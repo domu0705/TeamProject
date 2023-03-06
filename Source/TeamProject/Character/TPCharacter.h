@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "TeamProjectCharacter.h"
+#include "../Core/Timer.h"
+#include "../Manager/UserWidgetManager.h"
 #include "TPCharacter.generated.h"
 
 UCLASS()
@@ -16,6 +18,23 @@ public:
 	// Sets default values for this character's properties
 	ATPCharacter();
 
+private:
+	Timer* timer;
+
+	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
+		int32 MaxHP;
+	UPROPERTY(Transient, VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
+		int32 CurrentHP;
+	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
+		bool isSuper;//무적인지 아닌지
+	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
+		int32 superStartTime;//무적인지 아닌지
+	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
+		int32 superDuration;//무적 지속 기간
+
+	//UPROPERTY(VisibleAnywhere, Category = Stat)
+	//	class UCharacterStatComponent* CharacterStat;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -26,7 +45,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UPROPERTY(VisibleAnywhere, Category = Stat)
-		class UCharacterStatComponent* CharacterStat;
+	void SetStat();
+	void GetDamage();
+	void UpdateHP();
 };

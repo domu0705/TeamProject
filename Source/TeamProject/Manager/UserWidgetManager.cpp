@@ -32,3 +32,31 @@ void UserWidgetManager::CreateLogInUW(UWorld* world)
 		UE_LOG(LogTemp, Log, TEXT("@@@ LobbyUIObject  fail "));
 	}
 }
+
+void UserWidgetManager::CreateInGameUW(UWorld* world)
+{
+	if (!world)
+		return;
+
+	FString path = "/Game/BP_UI/BP_InGame";
+	InGameUWClass = ConstructorHelpersInternal::FindOrLoadClass(path, UInGameUW::StaticClass());
+	if (!InGameUWClass)
+		return;
+
+	InGameUW = Cast<UInGameUW>(CreateWidget<UUserWidget>(world, InGameUWClass));
+	if (InGameUW)
+	{
+		InGameUW->AddToViewport();
+		//OnOffLobbyView(false);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("@@@ LobbyUIObject  fail "));
+	}
+}
+
+void UserWidgetManager::UpdateHP(int32 inCurrentHP)
+{
+	UE_LOG(LogTemp, Log, TEXT("UserWidgetManager::UpdateHP() "));
+	InGameUW->UpdateHP(inCurrentHP);
+}

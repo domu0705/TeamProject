@@ -55,4 +55,5 @@ void ATeamProjectGameMode::BeginPlay()
 
 	//UI »ý¼º
 	UserWidgetManager->CreateLogInUW(GetWorld());
+	UserWidgetManager->CreateInGameUW(GetWorld());
 }

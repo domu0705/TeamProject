@@ -2,6 +2,8 @@
 
 
 #include "PacketBox.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Character/TPCharacter.h"
 
 // Sets default values
 APacketBox::APacketBox()
@@ -32,8 +34,16 @@ void APacketBox::Tick(float DeltaTime)
 
 void APacketBox::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMovved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
 {
+	if (isOn)
+		return;
 	UE_LOG(LogTemp, Log, TEXT("APacketBox::NotifyHit"));
 	boxManager->TurnOnBoxes(0, 3, 0); //테스트용. 지금은 이거 여러번 불림
 	boxManager->TurnOnBoxes(2, 0, 1);
 	boxManager->TurnOnBoxes(0, 5, 0);
+
+	//진짜 내 로컬 플레이어를 가져오는지, 다른 클라 플레이어 가져오는지 확인해야 함.
+	ACharacter* playerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	ATPCharacter* player = Cast<ATPCharacter>(playerCharacter);
+	player->GetDamage();
+	isOn = true;
 }

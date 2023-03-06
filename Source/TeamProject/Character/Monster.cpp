@@ -68,16 +68,14 @@ void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
 void AMonster::MoveFoward()
 {
 	isMoving = true;
-	UE_LOG(LogTemp, Log, TEXT("!!AMonster::MoveFoward()"));
+
 	AController* controller = GetController();
 	if (!controller)
 		return;
-	UE_LOG(LogTemp, Log, TEXT("!!AMonster::MoveFoward() | controller find"));
-	const FRotator Rotation = controller->GetControlRotation();
-	const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 
-	// Move the character forward in the specified direction
-	AddMovementInput(Direction, 1.0f);
+	FRotator Rotation = controller->GetControlRotation();
+	const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+	AddMovementInput(Direction, true);
 }
 
 /*

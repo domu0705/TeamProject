@@ -3,7 +3,7 @@
 
 #include "LogInUW.h"
 
-//¹öÆ°ÀÌº¥Æ®¿Í ÇÔ¼ö ¿¬°á
+//ë²„íŠ¼ì´ë²¤íŠ¸ì™€ í•¨ìˆ˜ ì—°ê²°
 void ULogInUW::NativeConstruct()
 {
 	Super::NativeConstruct();
@@ -19,7 +19,7 @@ void ULogInUW::NativeConstruct()
 	//LogInBtn->SetVisibility(ESlateVisibility::Collapsed);
 }
 
-//·Î±×ÀÎ ¿äÃ»
+//ë¡œê·¸ì¸ ìš”ì²­
 void ULogInUW::LogInBtnClicked()
 {
 	FString idStr = (IDEditText->GetText()).ToString();
@@ -29,7 +29,7 @@ void ULogInUW::LogInBtnClicked()
 	TurnOffUW();
 }
 
-//Æ÷Æ® ¿¬°á ¿äÃ»
+//í¬íŠ¸ ì—°ê²° ìš”ì²­
 void ULogInUW::PortConnBtnClicked()
 {
 	SocketManager& socketManager = SocketManager::GetInstance();

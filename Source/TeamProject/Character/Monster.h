@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "../ChatacterController/MonsterController.h"
+#include "TeamProjectCharacter.h"
 #include "Monster.generated.h"
 
 UCLASS()
-class TEAMPROJECT_API AMonster : public ACharacter
+class TEAMPROJECT_API AMonster : public ATeamProjectCharacter//ACharacter
 {
 	GENERATED_BODY()
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "../UI/LogInUW.h"
+#include "../UI/InGameUW.h"
 #include "Blueprint/UserWidget.h"
 
 
@@ -11,9 +12,11 @@ class TEAMPROJECT_API UserWidgetManager
 {
 private:
 	TSubclassOf<UUserWidget> LobbyUWClass;
+	TSubclassOf<UUserWidget> InGameUWClass;
 
 
 	ULogInUW* LoginUW;
+	UInGameUW* InGameUW;
 
 public:
 	static UserWidgetManager* GetInstance() {
@@ -25,5 +28,6 @@ public:
 	~UserWidgetManager();
 
 	void CreateLogInUW(UWorld* world);
-
+	void CreateInGameUW(UWorld* world);
+	void UpdateHP(int32 inCurrentHP);
 };
