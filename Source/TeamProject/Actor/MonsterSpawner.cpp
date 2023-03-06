@@ -58,6 +58,7 @@ void AMonsterSpawner::SpawnMonster()
 	AMonster* newMonster = GetWorld()->SpawnActor<AMonster>(monsterClass, bodyPos, bodyRot, SpawnParams);
 	//auto newMonster = GetWorld()->SpawnActor<AMonster>(monsterClass, FVector::ZeroVector, FRotator::ZeroRotator);
 	//UE_LOG(LogTemp, Log, TEXT("@@@SpawnMonster()"));
+	newMonster->MoveFoward();
 	UE_LOG(LogTemp, Warning, TEXT("New monster spawned at location (%f, %f, %f)"), bodyPos.X, bodyPos.Y, bodyPos.Z);
 
 }

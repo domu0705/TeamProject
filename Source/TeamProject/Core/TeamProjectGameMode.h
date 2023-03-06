@@ -19,10 +19,7 @@ private:
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;
-	void CallClassInit();// ³»°¡ Á÷Á¢ ¸¸µç ºÎ¸ğ¾ø´Â Å¬·¡½º´Â play½Ã constructor °¡ È£ÃâÀÌ ¾ÈµÊ. gamemodebaseÀÇ constructorÀº play½Ã¿¡µµ »ı¼ºÀÚ°¡ ºÒ¸®±â ¶§¹®¿¡ ±×·¡¼­ ÀÌ°É·Î º¯¼ö ÃÊ±âÈ­¸¦ ÇØÁÙ ÇÔ¼ö¸¦ °­Á¦·Î ºÒ·¯ÁÜ.
+	void CallClassInit();// ë‚´ê°€ ì§ì ‘ ë§Œë“  ë¶€ëª¨ì—†ëŠ” í´ë˜ìŠ¤ëŠ” playì‹œ constructor ê°€ í˜¸ì¶œì´ ì•ˆë¨. gamemodebaseì˜ constructorì€ playì‹œì—ë„ ìƒì„±ìê°€ ë¶ˆë¦¬ê¸° ë•Œë¬¸ì— ê·¸ë˜ì„œ ì´ê±¸ë¡œ ë³€ìˆ˜ ì´ˆê¸°í™”ë¥¼ í•´ì¤„ í•¨ìˆ˜ë¥¼ ê°•ì œë¡œ ë¶ˆëŸ¬ì¤Œ.
 public:
 	ATeamProjectGameMode();
 };
-
-
-

@@ -48,11 +48,11 @@ void ATeamProjectGameMode::BeginPlay()
 		return;
 	WarningBoxManager->BeginPlay();
 
-	UserWidgetManager* UserWidgetManager =  UserWidgetManager::GetInstance();
+	UserWidgetManager* UserWidgetManager = UserWidgetManager::GetInstance();
 	if (!UserWidgetManager)
 		return;
 	//UserWidgetManager = UserWidgetManager::GetInstance();
 
-	//UI »ý¼º
+	//UI Â»Ã½Â¼Âº
 	UserWidgetManager->CreateLogInUW(GetWorld());
 }

@@ -43,7 +43,7 @@ public:
 	template< class PacketType >
 	void sendPacket(const PacketType& packet)
 	{
-		//int32 len = 0;// °è»ê ÇÊ¿ä
+		//int32 len = 0;// ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
 		int32 bytesSents = 0;
 		const FString packetStr(reinterpret_cast<const TCHAR*>(&packet));
 		FTCHARToUTF8 Converter(*packetStr);

@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// warning box¿Í ½ºÆùµÇ´Â monster¸¦ °ü¸®ÇÏ´Â Å¬·¡½º
+// warning boxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ monsterï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 // -----------------------------------------------------------------------------
 #pragma once
 
@@ -17,10 +17,10 @@ private:
 	TArray<AWarningBox*> boxAry;
 	//TArray<AMonster*> monsterAry;
 	TArray<AMonsterSpawner*> spawnerAry;
-	TArray<TArray<int32>> warningAry; // ¸ó½ºÅÍ ½ºÆùÀ» À§ÇØ ¿ö´× Á¤º¸ ÀúÀå{ {0, 1, 0}, {1,0,1}}
+	TArray<TArray<int32>> warningAry; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½{ {0, 1, 0}, {1,0,1}}
 	Timer* timer;
-	int32 	turnOnTime ;//warning box °¡ ÄÑÁø ½Ã°£
-	int32 duration;//warning box °¡ ÄÑÀúÀÖ´Â ½Ã°£
+	int32 	turnOnTime ;//warning box ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+	int32 duration;//warning box ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Ã°ï¿½
 	bool isTurnOn;
 
 public:
@@ -32,7 +32,7 @@ public:
 	WarningBoxManager();
 	~WarningBoxManager();
 
-	void Init();//gamemodebase »ý¼ºÀÚ¿¡¼­ È£Ãâ
+	void Init();//gamemodebase ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ È£ï¿½ï¿½
 	void BeginPlay();
 	void Tick();
 	void AddBoxToAry(AWarningBox* box);

@@ -11,7 +11,7 @@ PacketManager::~PacketManager()
 {
 }
 
-//·Î±×ÀÎ ¿äÃ»
+//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»
 void PacketManager::MakeLoginPacket(const FString& inID)
 {
 	UE_LOG(LogTemp,Log,TEXT("@@ PacketManager::SendLogin() | id : %s"),*inID)

@@ -28,7 +28,6 @@ int32 Timer::GetTIme()
 	return curTime;
 }
 
-
 int32 Timer::GetCurTime()
 {
 	time_t timer = time(NULL);

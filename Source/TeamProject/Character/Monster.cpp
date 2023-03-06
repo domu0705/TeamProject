@@ -18,6 +18,7 @@ AMonster::AMonster()
 	{
 		GetMesh()->SetSkeletalMesh(SK_MOSTER.Object);
 	}
+	isMoving = false;
 
 }
 
@@ -46,7 +47,9 @@ void AMonster::BeginPlay()
 void AMonster::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (!isMoving)
+		return;
+	MoveFoward();
 }
 
 // Called to bind functionality to input
@@ -62,12 +65,14 @@ void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
 	//UE_LOG(LogTemp, Log, TEXT("!! AMonster::NotifyActorBeginOverlap name = %s"), *name);
 }
 
-
 void AMonster::MoveFoward()
 {
+	isMoving = true;
+	UE_LOG(LogTemp, Log, TEXT("!!AMonster::MoveFoward()"));
 	AController* controller = GetController();
 	if (!controller)
 		return;
+	UE_LOG(LogTemp, Log, TEXT("!!AMonster::MoveFoward() | controller find"));
 	const FRotator Rotation = controller->GetControlRotation();
 	const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 
@@ -75,3 +80,18 @@ void AMonster::MoveFoward()
 	AddMovementInput(Direction, 1.0f);
 }
 
+/*
+void ATeamProjectCharacter::MoveForward(float Value)
+{
+	if ((Controller != nullptr) && (Value != 0.0f))
+	{
+		// find out which way is forward
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get forward vector
+		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		AddMovementInput(Direction, Value);
+	}
+}
+*/

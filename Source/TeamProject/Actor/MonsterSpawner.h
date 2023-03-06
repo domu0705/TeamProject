@@ -37,7 +37,7 @@ public:
 		UPROPERTY(EditAnywhere, Category = Position)
 		int32 colNum;// 1~7
 	UPROPERTY(EditAnywhere, Category = Position)
-		int32 dirNum;//0 or 1 (»ó/ÇÏ  ÁÂ/¿ì ½ºÆù À§Ä¡ ±¸ºÐ)
+		int32 dirNum;//0 or 1 (ï¿½ï¿½/ï¿½ï¿½  ï¿½ï¿½/ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½)
 	int32 GetRowNum();
 	int32 GetColNum();
 	int32 GetSpawnerDir();

@@ -18,7 +18,7 @@ void WarningBoxManager::Init()
 	boxAry .Empty();
 	spawnerAry.Empty();
 	isTurnOn = false;
-	duration = 5;
+	duration = 5; //언리얼로 빼보기
 }
 
 void WarningBoxManager::BeginPlay()
@@ -37,9 +37,9 @@ void WarningBoxManager::AddBoxToAry(AWarningBox* box)
 		return;
 
 	//col,row,dir
-	TurnOnBoxes(0, 3,0); //테스트용. 지금은 이거 여러번 불림
-	TurnOnBoxes(2, 0, 1);
-	TurnOnBoxes(0, 5, 0);
+	//TurnOnBoxes(0, 3,0); //테스트용. 지금은 이거 여러번 불림
+	//TurnOnBoxes(2, 0, 1);
+	//TurnOnBoxes(0, 5, 0);
 }
 
 void WarningBoxManager::AddMonsterSpawnerToAry(AMonsterSpawner* spawner)
