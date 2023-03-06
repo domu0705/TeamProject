@@ -11,12 +11,10 @@ PacketManager::~PacketManager()
 {
 }
 
-//�α��� ��û
 void PacketManager::MakeLoginPacket(const FString& inID)
 {
-	UE_LOG(LogTemp,Log,TEXT("@@ PacketManager::SendLogin() | id : %s"),*inID)
+	UE_LOG(LogTemp, Log, TEXT("@@ PacketManager::SendLogin() | id : %s"), *inID)
 	//FString command = FString::Printf(TEXT("LOGIN %s\r\n"), *inID);
-	LoginPacket loginPacket(inID);
-	SocketManager& SocketManager = SocketManager::GetInstance();
-	SocketManager.sendPacket(loginPacket);
+	Packet::LoginRequestPacket loginRequestPacket(inID);
+	SocketManager::GetInstance()._sendPacket(Packet::PacketID::LOGINREQUEST, &loginRequestPacket);
 }

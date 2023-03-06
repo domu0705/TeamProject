@@ -34,7 +34,7 @@ void ATeamProjectGameMode::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	//if (!SocketManager)
 	//	return;
-	//SocketManager->Tick();
+	SocketManager::GetInstance().Tick();
 	//UE_LOG(LogTemp, Log, TEXT("@@ATeamProjectGameMode::Tick()"));
 	warningBoxManager->Tick();
 }

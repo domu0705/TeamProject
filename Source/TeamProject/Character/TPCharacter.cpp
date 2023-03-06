@@ -18,6 +18,15 @@ ATPCharacter::ATPCharacter()
 void ATPCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	SocketManager::GetInstance().SetCharacter(this);
+	if (nickName == TEXT("myUser"))
+	{
+
+	}
+	else 
+	{
+
+	}
 }
 
 // Called every frame

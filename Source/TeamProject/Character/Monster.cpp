@@ -77,11 +77,12 @@ void AMonster::MoveFoward()
 	const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, true);
 }
-
+/*
 void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 
 }
+*/
 
 /*
 void ATeamProjectCharacter::MoveForward(float Value)

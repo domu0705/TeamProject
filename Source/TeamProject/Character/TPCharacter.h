@@ -36,6 +36,9 @@ private:
 	//	class UCharacterStatComponent* CharacterStat;
 
 protected:
+	//로컬에서 나와 타 플레이어를 구분하기 위함
+	UPROPERTY(EditAnywhere)
+		FString nickName;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
