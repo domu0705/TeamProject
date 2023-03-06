@@ -39,6 +39,7 @@ void ATPCharacter::SetStat()
 {
 	MaxHP = 3;
 	CurrentHP = MaxHP;
+	isSuper = false;
 	superDuration = 2;
 }
 /*
@@ -68,7 +69,7 @@ void ATPCharacter::GetDamage()
 		--CurrentHP;
 		UE_LOG(LogTemp, Log, TEXT("Current HEalth = %d"), CurrentHP);
 		isSuper = true;
-		//UpdateHP();
+		UpdateHP();
 	}
 }
 
