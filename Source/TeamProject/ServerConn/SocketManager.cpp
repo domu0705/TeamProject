@@ -130,11 +130,11 @@ void SocketManager::interpretPacket(char* packet)
 
 		if (isLogInSuccess)
 		{
-			UE_LOG(LogTemp, Log, TEXT("SocketManager::interpretPacket() | isLogInSuccess"));
+			UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | isLogInSuccess"));
 		}
 		else
 		{
-			UE_LOG(LogTemp, Log, TEXT("SocketManager::interpretPacket() | isLogInfail"));
+			UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | isLogInfail"));
 		}
 
 	}
