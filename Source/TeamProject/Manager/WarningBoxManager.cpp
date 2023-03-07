@@ -18,7 +18,7 @@ void WarningBoxManager::Init()
 	boxAry .Empty();
 	spawnerAry.Empty();
 	isTurnOn = false;
-	duration = 4;
+	duration = 2;
 }
 
 void WarningBoxManager::BeginPlay()

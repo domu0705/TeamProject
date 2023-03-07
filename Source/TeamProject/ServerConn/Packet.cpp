@@ -20,7 +20,7 @@ namespace Packet
 	{
 		packetSize = sizeof(unsigned short) + sizeof(PacketID) + PacketProtocol::NICKNAME_MAXSIZE;
 		packetID = PacketID::LOGINREQUEST;
-		// donghyun : char[] 
+		// donghyun : char[] �ʱ�ȭ
 		LoginNickname[0] = { 0, };
 		int32 CharArraySize = strlen(TCHAR_TO_UTF8(*nickname)) + 1;
 		FCStringAnsi::Strncpy(LoginNickname, TCHAR_TO_UTF8(*nickname), CharArraySize);

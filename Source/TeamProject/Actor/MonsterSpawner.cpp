@@ -50,7 +50,7 @@ void AMonsterSpawner::SpawnMonster()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-	FString path = TEXT("/Game/Characters/BP_Monster");
+	FString path = TEXT("/Game/TPAssets/Characters/BP_Monster"); 
 	monsterClass = ConstructorHelpersInternal::FindOrLoadClass(path, AMonster::StaticClass());
 	if (!monsterClass) return;
 

@@ -25,18 +25,21 @@ class TEAMPROJECT_API SocketManager
 	};
 
 private:
+	//클라이언트의 소켓
 	FSocket* socket;
-	uint8 buffer[BUFFER_SIZE] = { 0 };
+	//uint8 buffer[BUFFER_SIZE] = { 0 };
+	char savingBuffer[BUFFER_SIZE];
 	int recvBytes = 0;
+	unsigned char prevRecvBytes= 0;
 
 	TArray<ATPCharacter*> characterAry;
-	/*
-	ATPCharacter* character1;
+
+	ATPCharacter* myCharacter;
+	TArray<ATPCharacter*> otherCharacterAry;
 	ATPCharacter* character2;
 	ATPCharacter* character3;
 	ATPCharacter* character4;
 	ATPCharacter* character5;
-	*/
 
 public:
 	static SocketManager& GetInstance()
@@ -54,9 +57,10 @@ public:
 	bool ConnectServer();
 	//void Send(FString& string);
 	//void SendLogin(LoginPacket& loginPacket);
-	void CheckRecvMsg(FString& recvStr, FString& str1);
+	//void CheckRecvMsg(FString& recvStr, FString& str1);
 	void _sendPacket(Packet::PacketID packetType, void* packet);
-
+	void revcPacket();
+	void interpretPacket(char* packet);
 	template< class PacketType >
 	void sendPacket(const PacketType& packet)
 	{
@@ -74,8 +78,10 @@ public:
 		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
 	}
 
-	ATPCharacter* GetCharacter(int32 num) { return characterAry[num]; }
-	void SetCharacter(ATPCharacter* inCharacter) { characterAry.Add(inCharacter); }
+	ATPCharacter* GetMyCharacter(int32 num) { return myCharacter; }
+	void SetMyCharacter(ATPCharacter* inCharacter) { myCharacter = inCharacter; }
+	ATPCharacter* GetOtherCharacter(int32 num) { return otherCharacterAry[num]; }
+	void SetOtherCharacter(ATPCharacter* inCharacter) { otherCharacterAry.Add(inCharacter); }
 
 	//참고
 	//AMiniGameCharacter* GetCharacter3() { return m_Character3; }

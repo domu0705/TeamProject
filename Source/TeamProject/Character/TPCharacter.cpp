@@ -9,7 +9,6 @@ ATPCharacter::ATPCharacter()
 	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::ATPCharacter()"));
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	//CharacterStat = CreateDefaultSubobject< UCharacterStatComponent>(TEXT("CHARACTERSTAT"));
 	timer = Timer::GetInstance();
 	SetStat();
 }
@@ -18,14 +17,16 @@ ATPCharacter::ATPCharacter()
 void ATPCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	SocketManager::GetInstance().SetCharacter(this);
-	if (nickName == TEXT("myUser"))
-	{
 
+	if (nickName == TEXT("myCharacter"))
+	{
+		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::BeginPlay() | Set myCharacter"));
+		SocketManager::GetInstance().SetMyCharacter(this);
 	}
 	else 
 	{
-
+		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::BeginPlay() | Set other Character"));
+		SocketManager::GetInstance().SetOtherCharacter(this);
 	}
 }
 

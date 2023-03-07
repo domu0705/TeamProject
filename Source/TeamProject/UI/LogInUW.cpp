@@ -22,7 +22,7 @@ void ULogInUW::NativeConstruct()
 //로그인 요청
 void ULogInUW::LogInBtnClicked()
 {
-	FString idStr = (IDEditText->GetText()).ToString();
+	const FString idStr = (IDEditText->GetText()).ToString();
 	int32 tempCnt = FCString::Atoi(*idStr);
 	PacketManager& PacketManager = PacketManager::GetInstance();
 	PacketManager.MakeLoginPacket(idStr);
