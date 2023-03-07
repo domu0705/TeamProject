@@ -27,6 +27,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void NotifyHit(UPrimitiveComponent*MyComp,AActor*Other,UPrimitiveComponent*OtherComp,bool bSelfMovved,FVector HitLocation ,
 		FVector HitNormal,FVector NormalImpulse,const FHitResult& Hit) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor);
 
 	UPROPERTY(EditAnyWhere)
 		UStaticMeshComponent* BoxMesh;

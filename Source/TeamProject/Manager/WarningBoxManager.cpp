@@ -73,7 +73,6 @@ void WarningBoxManager::CheckTurnOffBox()//안씀
 {;
 	if (warningAry.Num() == 0)
 	{
-		UE_LOG(LogTemp, Log, TEXT("isturnon false"));
 		return;
 	}
 
