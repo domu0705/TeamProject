@@ -7,6 +7,7 @@
 #include "TeamProjectCharacter.h"
 #include "../Core/Timer.h"
 #include "../Manager/UserWidgetManager.h"
+#include "../Character/Monster.h"
 #include "TPCharacter.generated.h"
 
 UCLASS()
@@ -42,12 +43,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(VisibleAnywhere, Category = "Colliders")
+		class UCapsuleComponent* overlapCapsule;
+
 public:	
 	// Called every frame
 	//virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor);
 	void SetStat();
 	void GetDamage();
 	void UpdateHP();

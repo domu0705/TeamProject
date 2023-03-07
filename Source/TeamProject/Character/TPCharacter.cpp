@@ -7,10 +7,16 @@
 ATPCharacter::ATPCharacter()
 {
 	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::ATPCharacter()"));
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+ 	// character가 매 프레임마다 Tick()을 호출. 꺼도 됨
 	PrimaryActorTick.bCanEverTick = false;
 	timer = Timer::GetInstance();
 	SetStat();
+
+	//overlap확인을 위한 capsule component 생성
+	overlapCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CAPSUPECOMPONENT"));
+	overlapCapsule->InitCapsuleSize(74.f, 96.f);
+	overlapCapsule->SetCollisionProfileName(FName("Monster"));
+
 }
 
 // Called when the game starts or when spawned
@@ -43,7 +49,6 @@ void ATPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
-
 
 void ATPCharacter::SetStat()
 {
@@ -89,4 +94,15 @@ void ATPCharacter::UpdateHP()
 	if (!UserWidgetManager)
 		return;
 	UserWidgetManager->UpdateHP(CurrentHP);
+}
+
+
+void ATPCharacter::NotifyActorBeginOverlap(AActor* OtherActor)//collision preset ->overlapall로 변경
+{
+	//충돌한 물체가 몬스터인지 검사
+	AMonster* Projectile = Cast<AMonster>(OtherActor);
+	if (Projectile)
+	{
+		// Damage Process
+	}
 }

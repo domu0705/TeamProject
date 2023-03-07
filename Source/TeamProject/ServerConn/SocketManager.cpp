@@ -22,7 +22,10 @@ SocketManager::~SocketManager()
 bool SocketManager::ConnectServer()
 {
 	socket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(TEXT("Stream"), TEXT("Client Socket"));
-	FString address = TEXT("127.0.0.1");
+	socket->SetNonBlocking();
+	socket->SetNoDelay();
+
+	FString address = TEXT("127.0.0.1");//TEXT("172.28.35.237");
 	FIPv4Address ip;
 	FIPv4Address::Parse(address, ip);
 

@@ -32,12 +32,8 @@ void ULogInUW::LogInBtnClicked()
 //포트 연결 요청
 void ULogInUW::PortConnBtnClicked()
 {
-	SocketManager& socketManager = SocketManager::GetInstance();
-
-	if (socketManager.ConnectServer())
+	if (SocketManager::GetInstance().ConnectServer())
 	{
-		//PortBtn->SetVisibility(ESlateVisibility::Collapsed);
-		//LogInBtn->SetVisibility(ESlateVisibility::Visible);
 		UE_LOG(LogTemp, Log, TEXT("@@@ port conn soccess"));
 	}
 	else
