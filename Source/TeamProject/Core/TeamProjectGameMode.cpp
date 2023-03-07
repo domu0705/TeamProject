@@ -3,6 +3,7 @@
 #include "TeamProjectGameMode.h"
 #include "../Character/TPCharacter.h"
 #include "../ChatacterController/TPPlayerController.h"
+#include "../Character/TeamProjectCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ATeamProjectGameMode::ATeamProjectGameMode()
@@ -21,6 +22,7 @@ ATeamProjectGameMode::ATeamProjectGameMode()
 
 	warningBoxManager = WarningBoxManager::GetInstance();
 	CallClassInit();
+
 
 }
 

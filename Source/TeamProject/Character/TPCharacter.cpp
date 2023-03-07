@@ -8,7 +8,7 @@ ATPCharacter::ATPCharacter()
 {
 	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::ATPCharacter()"));
  	// character가 매 프레임마다 Tick()을 호출. 꺼도 됨
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 	timer = Timer::GetInstance();
 	SetStat();
 
@@ -37,11 +37,11 @@ void ATPCharacter::BeginPlay()
 }
 
 // Called every frame
-//void ATPCharacter::Tick(float DeltaTime)
-//{
-//	Super::Tick(DeltaTime);
-//
-//}
+void ATPCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
 
 // Called to bind functionality to input
 void ATPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

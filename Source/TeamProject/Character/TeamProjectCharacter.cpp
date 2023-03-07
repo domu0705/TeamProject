@@ -7,6 +7,9 @@
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
+
+#include "../ServerConn/SocketManager.h"
+#include "../ServerConn/PacketManager.h"
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -14,6 +17,7 @@
 
 ATeamProjectCharacter::ATeamProjectCharacter()
 {
+	//PrimaryActorTick.bCanEverTick = true;
 	UE_LOG(LogTemp, Log, TEXT("@@ ATeamProjectCharacter::ATeamProjectCharacter()"));
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
@@ -46,7 +50,25 @@ ATeamProjectCharacter::ATeamProjectCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+	updateDelay = 0.5f;
+	curDelayedTime = 0.0f;
+
+	
 }
+
+void ATeamProjectCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void ATeamProjectCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	UE_LOG(LogTemp, Log, TEXT("@@  ATeamProjectCharacter::Tick()"));
+	curDelayedTime += DeltaTime;
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -122,6 +144,8 @@ void ATeamProjectCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
+
+		SendPosRotToServer();
 	}
 }
 
@@ -137,5 +161,21 @@ void ATeamProjectCharacter::MoveRight(float Value)
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
+
+		SendPosRotToServer();
 	}
+}
+
+void ATeamProjectCharacter::SendPosRotToServer()
+{
+	if (curDelayedTime < updateDelay)
+		return;
+	if (SocketManager::GetInstance().GetIsConnected())
+	{
+		PacketManager& PacketManager = PacketManager::GetInstance();
+		FVector curPosVec = this->GetActorLocation();
+		FVector curRotVec = this->GetActorRotation().Vector();
+		PacketManager.MakeUpdatePacket(curPosVec, curRotVec);
+	}
+	curDelayedTime = 0.0f;
 }

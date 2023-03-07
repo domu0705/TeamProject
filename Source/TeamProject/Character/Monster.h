@@ -9,7 +9,7 @@
 #include "Monster.generated.h"
 
 UCLASS()
-class TEAMPROJECT_API AMonster : public ATeamProjectCharacter//ACharacter
+class TEAMPROJECT_API AMonster : public ACharacter//ATeamProjectCharacter
 {
 	GENERATED_BODY()
 

@@ -38,6 +38,16 @@ namespace Packet
 	}
 
 	// 클라
+	UpdatePacket::UpdatePacket(float* inPosVec, float* inRotVec)
+	{
+		packetSize = sizeof(unsigned short) + sizeof(PacketID) + (sizeof(float) * 6);
+		packetID = PacketID::UPDATE;
+		for (int i = 0; i < 3; ++i)
+		{
+			posVec[i] = inPosVec[i];
+			rotVec[i] = inRotVec[i];
+		}
+	}
 
 	LoginRequestPacket::LoginRequestPacket(const FString& nickname)
 	{

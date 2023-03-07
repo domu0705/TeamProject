@@ -16,6 +16,7 @@ class ATeamProjectGameMode : public AGameModeBase
 private:
 	//UserWidgetManager& UWManager;
 	WarningBoxManager* warningBoxManager;
+	ATeamProjectCharacter* character;
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void BeginPlay() override;

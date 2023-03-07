@@ -32,14 +32,11 @@ private:
 	int recvBytes = 0;
 	unsigned char prevRecvBytes= 0;
 
-	TArray<ATPCharacter*> characterAry;
-
+	//TArray<ATPCharacter*> characterAry;
+	FString myID;
 	ATPCharacter* myCharacter;
 	TArray<ATPCharacter*> otherCharacterAry;
-	ATPCharacter* character2;
-	ATPCharacter* character3;
-	ATPCharacter* character4;
-	ATPCharacter* character5;
+	TMap<int32, ATPCharacter*> characterAry;
 
 public:
 	static SocketManager& GetInstance()
@@ -78,11 +75,16 @@ public:
 		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
 	}
 
-	ATPCharacter* GetMyCharacter(int32 num) { return myCharacter; }
+	const FString& GetMyID() { return myID; }
+	void SetMyID(const FString& inMyID) { myID = inMyID; }
+	ATPCharacter* getMyCharacter() { return myCharacter; }
 	void SetMyCharacter(ATPCharacter* inCharacter) { myCharacter = inCharacter; }
 	ATPCharacter* GetOtherCharacter(int32 num) { return otherCharacterAry[num]; }
 	void SetOtherCharacter(ATPCharacter* inCharacter) { otherCharacterAry.Add(inCharacter); }
-
+	TMap<int32, ATPCharacter*> GetCharacterAry() { return characterAry; }
+	ATPCharacter* GetCharacterAry(int32 index) { return characterAry[index]; }
+	void SetCharacterAry(int32 id, ATPCharacter* inCharacter) { characterAry.Add(id,inCharacter ); }
+	bool GetIsConnected() { return isConnected; }
 	//참고
 	//AMiniGameCharacter* GetCharacter3() { return m_Character3; }
 	//void SetCharacter3(AMiniGameCharacter* varCharacter) { m_Character3 = varCharacter; }

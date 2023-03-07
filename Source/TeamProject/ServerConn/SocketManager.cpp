@@ -74,7 +74,8 @@ void SocketManager::revcPacket()
 	do
 	{
 		// 받아올 패킷 크기 알기
-		packetSize = packet[0];
+		packetSize = *(unsigned short*)(packet);
+		//packetSize = packet[0];
 
 		// 받아올 패킷 데이터 크기보다 받은 데이터가 많을 경우 -> 패킷을 조립해서 ProcessPacket 수행
 		if (packetSize <= curRecvBytes)
@@ -142,13 +143,50 @@ void SocketManager::interpretPacket(char* packet)
 
 	}
 	break;
-	//case ServerToClient::COLLISION_BLOCK:
-	//{
-	//	Packet::CollisionTile p = *reinterpret_cast<Packet::CollisionTile*>(packet);
-	//	ActorManager::GetInstance().ChangeBottomColor(UserManager::GetInstance().GetCharacterColor(p.owner), p.tileIndex);
-	//}
+	case Packet::PacketID::GAMESTART:
+	{
+		UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | GAMESTART"));
+		Packet::GameStartPacket p = *reinterpret_cast<Packet::GameStartPacket*> (packet);
+		/**/
+		Packet::PlayerInfo playerAry = p.playerArr;
+		FString nickName = FString(UTF8_TO_TCHAR(playerAry.nickName));
+		
+		if (nickName == SocketManager::GetInstance().GetMyID())
+		{
+			SocketManager::GetInstance().SetCharacterAry(p.playerArr.playerIdx, SocketManager::GetInstance().getMyCharacter());
 
-	//break;
+			FVector rotVec = FVector(p.playerArr.rotVec[0], p.playerArr.rotVec[1], p.playerArr.rotVec[2]);
+			FRotator rotFromVec = rotVec.Rotation();
+			SocketManager::GetInstance().getMyCharacter()->SetActorLocation(FVector(p.playerArr.posVec[0], p.playerArr.posVec[1], p.playerArr.posVec[2]));
+			SocketManager::GetInstance().getMyCharacter()->SetActorRotation(rotFromVec);
+		}
+		else 
+		{
+			int32 curPlayerNum = SocketManager::GetInstance().GetCharacterAry().Num();
+			ATPCharacter* newCharacter = SocketManager::GetInstance().GetOtherCharacter(curPlayerNum);
+			SocketManager::GetInstance().SetCharacterAry(p.playerArr.playerIdx, newCharacter);
+			FVector rotVec = FVector(p.playerArr.rotVec[0], p.playerArr.rotVec[1], p.playerArr.rotVec[2]);
+			FRotator rotFromVec = rotVec.Rotation();
+			newCharacter->SetActorLocation(FVector(p.playerArr.posVec[0], p.playerArr.posVec[1], p.playerArr.posVec[2]));
+			newCharacter->SetActorRotation(rotFromVec);
+		}
+		
+	}
+	break;
+	case Packet::PacketID::PLAY:
+	{
+		UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | PLAY"));
+		Packet::PlayPacket p = *reinterpret_cast<Packet::PlayPacket*> (packet);
+		/**/
+		ATPCharacter* movedCharacter = SocketManager::GetInstance().GetCharacterAry(p.playerIdx);
+		if (!movedCharacter)
+			return;
+		movedCharacter->SetActorLocation(FVector(p.posVec[0], p.posVec[1], p.posVec[2]));
+		FVector rotVec = FVector(p.rotVec[0], p.rotVec[1], p.rotVec[2]);
+		FRotator rotFromVec = rotVec.Rotation();
+		movedCharacter->SetActorRotation(rotFromVec);
+	}
+	break;
 	default:
 		break;
 	}
@@ -165,6 +203,16 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 
 	switch (packetType)
 	{
+	case Packet::PacketID::UPDATE:
+	{
+		Packet::UpdatePacket p = *(Packet::UpdatePacket*)(packet);
+		int32 bytesSents = 0;
+		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
+
+		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
+
+		break;
+	}
 	case Packet::PacketID::LOGINREQUEST:
 	{
 		Packet::LoginRequestPacket p = *(Packet::LoginRequestPacket*)(packet);

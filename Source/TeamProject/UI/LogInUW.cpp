@@ -26,6 +26,7 @@ void ULogInUW::LogInBtnClicked()
 	int32 tempCnt = FCString::Atoi(*idStr);
 	PacketManager& PacketManager = PacketManager::GetInstance();
 	PacketManager.MakeLoginPacket(idStr);
+	SocketManager::GetInstance().SetMyID(idStr);
 	TurnOffUW();
 }
 

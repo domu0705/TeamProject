@@ -68,7 +68,7 @@ namespace Packet
 	{
 		unsigned short packetSize;
 		PacketID packetID;
-		PlayerInfo playerArr[5];
+		PlayerInfo playerArr;
 		GameStartPacket();
 	};
 
@@ -103,6 +103,7 @@ namespace Packet
 		PacketID packetID;
 		float posVec[3];
 		float rotVec[3];
+		UpdatePacket(float* inPosVec, float* inRotVec);
 	};
 
 	struct LoginRequestPacket

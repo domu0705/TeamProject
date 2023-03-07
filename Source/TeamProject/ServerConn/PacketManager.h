@@ -21,5 +21,6 @@ public:
 	~PacketManager();
 
 	void MakeLoginPacket(const FString& inID);
+	void MakeUpdatePacket(FVector newPos, FVector newRot);
 
 };
