@@ -35,8 +35,6 @@ void ATPCharacter::BeginPlay()
 		SocketManager::GetInstance().SetOtherCharacter(this);
 	}
 
-	
-
 }
 
 // Called every frame
@@ -54,14 +52,21 @@ void ATPCharacter::NotifyActorBeginOverlap(AActor* OtherActor)//collision preset
 	AMonster* monster = Cast<AMonster>(OtherActor);
 	if (monster)
 	{
+		FVector monsterPos = OtherActor->GetActorLocation();
 		// Damage Process
+		FVector testPlayerPos = this->GetActorLocation();
 		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is monster!!!!!!!!"));
+		PacketManager& PacketManager = PacketManager::GetInstance();
+		PacketManager.MakePMColliderRequestPacket(monsterPos);
 	}
 
 	ATPCharacter* character = Cast<ATPCharacter>(OtherActor);
 	if (character)
 	{
 		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is character!!!!!!!!"));
+		unsigned short characterIdx = character->GetIndex();
+		PacketManager& PacketManager = PacketManager::GetInstance();
+		PacketManager.MakePPColliderRequestPacket(characterIdx);
 	}
 }
 // Called to bind functionality to input
@@ -115,4 +120,14 @@ void ATPCharacter::UpdateHP()
 	if (!UserWidgetManager)
 		return;
 	UserWidgetManager->UpdateHP(CurrentHP);
+}
+
+void ATPCharacter::SetIndex(unsigned short inIndex)
+{
+	index = inIndex;
+}
+
+unsigned short ATPCharacter::GetIndex()
+{
+	return index;
 }

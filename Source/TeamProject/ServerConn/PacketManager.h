@@ -22,5 +22,6 @@ public:
 
 	void MakeLoginPacket(const FString& inID);
 	void MakeUpdatePacket(FVector newPos, FVector newRot);
-
+	void MakePMColliderRequestPacket(FVector mosterPos);
+	void MakePPColliderRequestPacket(unsigned short opppoCharacterIdx);
 };

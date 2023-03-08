@@ -30,3 +30,19 @@ void PacketManager::MakeUpdatePacket(FVector newPos, FVector newRot)
 	Packet::UpdatePacket updatePacket(posVec,rotVec);
 	SocketManager::GetInstance()._sendPacket(Packet::PacketID::UPDATE, &updatePacket);
 }
+
+void PacketManager::MakePMColliderRequestPacket(FVector mosterPos)
+{
+	//FString command = FString::Printf(TEXT("LOGIN %s\r\n"), *inID);
+	float posVec[3] = { mosterPos.X,mosterPos.Y,mosterPos.Z };
+	Packet::PMColliderRequestPacket pMColliderRequestPacket(posVec);
+	SocketManager::GetInstance()._sendPacket(Packet::PacketID::PMCOLLIDEREQUEST, &pMColliderRequestPacket);
+}
+
+void PacketManager::MakePPColliderRequestPacket(unsigned short opppoCharacterIdx)
+{
+	//FString command = FString::Printf(TEXT("LOGIN %s\r\n"), *inID);
+
+	Packet::PPColliderRequestPacket pPColliderRequestPacket(opppoCharacterIdx);
+	SocketManager::GetInstance()._sendPacket(Packet::PacketID::PPCOLLIDEREQUEST, &pPColliderRequestPacket);
+}

@@ -159,26 +159,26 @@ void SocketManager::interpretPacket(char* packet)
 		//UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | GAMESTART"));
 		Packet::GameStartPacket p = *reinterpret_cast<Packet::GameStartPacket*> (packet);
 		/**/
-		Packet::PlayerInfo playerAry = p.playerArr;
+		Packet::PlayerInfo playerAry = p.playerInfo;
 		FString nickName = FString(UTF8_TO_TCHAR(playerAry.nickName));
 		
 		if (nickName == SocketManager::GetInstance().GetMyID())
 		{
-			SocketManager::GetInstance().SetCharacterAry(p.playerArr.playerIdx, SocketManager::GetInstance().getMyCharacter());
+			SocketManager::GetInstance().SetCharacterAry(p.playerInfo.playerIdx, SocketManager::GetInstance().getMyCharacter());
 
-			FVector rotVec = FVector(p.playerArr.rotVec[0], p.playerArr.rotVec[1], p.playerArr.rotVec[2]);
+			FVector rotVec = FVector(p.playerInfo.rotVec[0], p.playerInfo.rotVec[1], p.playerInfo.rotVec[2]);
 			FRotator rotFromVec = rotVec.Rotation();
-			SocketManager::GetInstance().getMyCharacter()->SetActorLocation(FVector(p.playerArr.posVec[0], p.playerArr.posVec[1], p.playerArr.posVec[2]));
+			SocketManager::GetInstance().getMyCharacter()->SetActorLocation(FVector(p.playerInfo.posVec[0], p.playerInfo.posVec[1], p.playerInfo.posVec[2]));
 			auto loc = SocketManager::GetInstance().getMyCharacter()->GetActorLocation();
 			SocketManager::GetInstance().getMyCharacter()->SetActorRotation(rotFromVec);
 		}
 		else 
 		{
 			ATPCharacter* newCharacter = SocketManager::GetInstance().GetOtherCharacter(curOtherCharacterNum);
-			SocketManager::GetInstance().SetCharacterAry(p.playerArr.playerIdx, newCharacter);
-			FVector rotVec = FVector(p.playerArr.rotVec[0], p.playerArr.rotVec[1], p.playerArr.rotVec[2]);
+			SocketManager::GetInstance().SetCharacterAry(p.playerInfo.playerIdx, newCharacter);
+			FVector rotVec = FVector(p.playerInfo.rotVec[0], p.playerInfo.rotVec[1], p.playerInfo.rotVec[2]);
 			FRotator rotFromVec = rotVec.Rotation();
-			newCharacter->SetActorLocation(FVector(p.playerArr.posVec[0], p.playerArr.posVec[1], p.playerArr.posVec[2]));
+			newCharacter->SetActorLocation(FVector(p.playerInfo.posVec[0], p.playerInfo.posVec[1], p.playerInfo.posVec[2]));
 			newCharacter->SetActorRotation(rotFromVec);
 			++curOtherCharacterNum;
 		}
@@ -216,6 +216,22 @@ void SocketManager::interpretPacket(char* packet)
 		Timer::GetInstance().SetTime((int32)(p.timeSecond));
 	}
 	break;
+	case Packet::PacketID::PMCOLLIDERESULT://충돌 확인
+	{
+		UE_LOG(LogTemp, Log, TEXT("@@ SocketManager::interpretPacket() | PMCOLLIDERESULT"));
+		Packet::CollideResultPacket p = *reinterpret_cast<Packet::CollideResultPacket*> (packet);
+		bool isCollided = p.IsCollided;
+		if (!isCollided)
+			return;
+
+		//충돌함. 데미지 받기
+		UE_LOG(LogTemp, Log, TEXT("@@ SocketManager::interpretPacket() | PMCOLLIDERESULT | isCollided"));
+		ATPCharacter* myCharacter = getMyCharacter();
+		myCharacter->GetDamage();
+
+		//충돌해서 튕겨져 나가기
+		//movedCharacter->SetActorRotation(rotFromVec);
+	}
 	default:
 		break;
 	}
@@ -264,6 +280,29 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 
 		break;
 	}
+	case Packet::PacketID::PMCOLLIDEREQUEST:
+	{
+		Packet::PMColliderRequestPacket p = *(Packet::PMColliderRequestPacket*)(packet);
+		int32 bytesSents = 0;
+		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
+
+		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
+		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
+
+		break;
+	}
+	case Packet::PacketID::PPCOLLIDEREQUEST:
+	{
+		Packet::PPColliderRequestPacket p = *(Packet::PPColliderRequestPacket*)(packet);
+		int32 bytesSents = 0;
+		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
+
+		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
+		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
+
+		break;
+	}
+
 	default:
 	{
 		break;

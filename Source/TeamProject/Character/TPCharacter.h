@@ -28,11 +28,15 @@ private:
 		int32 CurrentHP;
 	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
 		bool isSuper;//무적인지 아닌지
+	//무적인지 아닌지
 	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
-		int32 superStartTime;//무적인지 아닌지
+		int32 superStartTime;
+	//무적 지속 기간
 	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
-		int32 superDuration;//무적 지속 기간
-
+		int32 superDuration;
+	//서버에서 지정하는 캐릭터 구분 인덱스
+	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
+		unsigned short index;
 	//UPROPERTY(VisibleAnywhere, Category = Stat)
 	//	class UCharacterStatComponent* CharacterStat;
 
@@ -57,4 +61,6 @@ public:
 	void SetStat();
 	void GetDamage();
 	void UpdateHP();
+	void SetIndex(unsigned short inIndex);
+	unsigned short GetIndex();
 };

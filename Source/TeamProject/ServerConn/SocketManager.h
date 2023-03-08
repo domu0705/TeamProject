@@ -36,7 +36,7 @@ private:
 	FString myID;
 	ATPCharacter* myCharacter;
 	TArray<ATPCharacter*> otherCharacterAry;
-	TMap<int32, ATPCharacter*> characterAry;
+	TMap<unsigned short, ATPCharacter*> characterAry;
 
 public:
 	static SocketManager& GetInstance()
@@ -78,15 +78,14 @@ public:
 
 	const FString& GetMyID() { return myID; }
 	void SetMyID(const FString& inMyID) { myID = inMyID; }
+	//내 캐릭터 가져오기
 	ATPCharacter* getMyCharacter() { return myCharacter; }
 	void SetMyCharacter(ATPCharacter* inCharacter) { myCharacter = inCharacter; }
+	//내 캐릭터를 제외한, 시작 전 비어있는 캐릭터 중 하나 반환
 	ATPCharacter* GetOtherCharacter(int32 num) { return otherCharacterAry[num]; }
 	void SetOtherCharacter(ATPCharacter* inCharacter) { otherCharacterAry.Add(inCharacter); }
-	TMap<int32, ATPCharacter*> GetCharacterAry() { return characterAry; }
-	ATPCharacter* GetCharacterAry(int32 index) { return characterAry[index]; }
+	TMap<unsigned short, ATPCharacter*> GetCharacterAry() { return characterAry; }
+	ATPCharacter* GetCharacterAry(unsigned short index) { return characterAry[index]; }
 	void SetCharacterAry(int32 id, ATPCharacter* inCharacter) { characterAry.Add(id,inCharacter ); }
 	bool GetIsConnected() { return isConnected; }
-	//참고
-	//AMiniGameCharacter* GetCharacter3() { return m_Character3; }
-	//void SetCharacter3(AMiniGameCharacter* varCharacter) { m_Character3 = varCharacter; }
 };
