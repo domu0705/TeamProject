@@ -34,7 +34,7 @@ bool SocketManager::ConnectServer()
 	socket->SetNonBlocking();
 	socket->SetNoDelay();
 
-	FString address = TEXT("172.28.35.237");//TEXT("172.28.35.237");
+	FString address = TEXT("127.0.0.1");//TEXT("172.28.35.237");
 	FIPv4Address ip;
 	FIPv4Address::Parse(address, ip);
 
@@ -195,6 +195,7 @@ void SocketManager::interpretPacket(char* packet)
 			return;
 		movedCharacter->SetActorLocation(FVector(p.posVec[0], p.posVec[1], p.posVec[2]));
 		FVector rotVec = FVector(p.rotVec[0], p.rotVec[1], p.rotVec[2]);
+
 		FRotator rotFromVec = rotVec.Rotation();
 		movedCharacter->SetActorRotation(rotFromVec);
 	}

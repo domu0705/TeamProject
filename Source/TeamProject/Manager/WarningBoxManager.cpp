@@ -27,7 +27,7 @@ void WarningBoxManager::BeginPlay()
 
 void WarningBoxManager::Tick(float DeltaSeconds)
 {
-	CheckTurnOffBox();
+	//CheckTurnOffBox();
 }
 
 void WarningBoxManager::AddBoxToAry(AWarningBox* box)
@@ -69,7 +69,7 @@ void WarningBoxManager::TurnOnBoxes(int32 col,int32 row,int32 dir)
 	}
 }
 
-void WarningBoxManager::CheckTurnOffBox()
+void WarningBoxManager::CheckTurnOffBox()//0308 안씀
 {;
 	if (warningAry.Num() == 0)
 	{
@@ -83,7 +83,7 @@ void WarningBoxManager::CheckTurnOffBox()
 	}
 }
 
-void WarningBoxManager::TurnOffBoxes()
+void WarningBoxManager::TurnOffBoxes()//0308 안씀
 {
 	for (int i = 0; i < boxAry.Num(); i++)
 	{

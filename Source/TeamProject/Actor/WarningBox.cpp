@@ -33,7 +33,7 @@ void AWarningBox::BeginPlay()
 void AWarningBox::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	//heckTurnOffBox();
+	CheckTurnOffBox();
 }
 
 void AWarningBox::PostInitializeComponents()
@@ -57,6 +57,7 @@ void AWarningBox::CheckTurnOffBox()
 	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::CheckTurnOffBox() %s %d"), *this->GetName(), turnOnTime);
 	if (Timer::GetInstance().GetTIme() > turnOnTime + turnOnDuration)
 	{
+		//UE_LOG(LogTemp, Log, TEXT("&& AWarningBox::CheckTurnOffBox() %d"), turnOnTime);
 		TurnOffBox();
 	}
 }
@@ -66,7 +67,7 @@ void AWarningBox::TurnOffBox()
 {
 	SetActorHiddenInGame(true);
 	isTurnOn = false;
-	//boxManager->TurnOnSpawner();
+	WarningBoxManager::GetInstance().TurnOnSpawner();
 }
 
 int32 AWarningBox::GetRow()

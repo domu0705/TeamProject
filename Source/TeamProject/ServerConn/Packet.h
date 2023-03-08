@@ -23,11 +23,15 @@ namespace Packet
 		MAKEROOMRESULT,
 		JOINROOMRESULT,
 		TIMER,
+		PMCOLLIDERESULT,
+		PPCOLLIDERESULT,
 		// client -> server
 		UPDATE,
 		LOGINREQUEST,
 		MAKEROOMREQUEST,
 		JOINROOMREQUEST,
+		PMCOLLIDEREQUEST,
+		PPCOLLIDEREQUEST,
 	};
 
 	enum class LoginPacketID : unsigned char
@@ -104,7 +108,7 @@ namespace Packet
 
 	struct JoinRoomResultPacket
 	{
-		int packetSize;
+		unsigned short packetSize;
 		PacketID packetID;
 		bool JoinRoomSuccess;
 		JoinRoomResultPacket(bool In_JoinRoomSuccess);
@@ -112,7 +116,7 @@ namespace Packet
 
 	struct TimerPacket
 	{
-		int packetSize;
+		unsigned short packetSize;
 		PacketID packetID;
 		unsigned short timeSecond;
 		TimerPacket(unsigned short in_timeSecond);
@@ -148,7 +152,7 @@ namespace Packet
 
 	struct JoinRoomRequestPacket
 	{
-		int packetSize;
+		unsigned short packetSize;
 		PacketID packetID;
 		unsigned short RoomNum;
 	};
