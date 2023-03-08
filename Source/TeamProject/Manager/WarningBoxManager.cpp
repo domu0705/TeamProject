@@ -6,7 +6,6 @@
 
 WarningBoxManager::WarningBoxManager()
 {
-	timer = Timer::GetInstance();
 }
 
 WarningBoxManager::~WarningBoxManager()
@@ -23,9 +22,10 @@ void WarningBoxManager::Init()
 
 void WarningBoxManager::BeginPlay()
 {
+
 }
 
-void WarningBoxManager::Tick()
+void WarningBoxManager::Tick(float DeltaSeconds)
 {
 	CheckTurnOffBox();
 }
@@ -50,9 +50,9 @@ void WarningBoxManager::AddMonsterSpawnerToAry(AMonsterSpawner* spawner)
 void WarningBoxManager::TurnOnBoxes(int32 col,int32 row,int32 dir)
 {
 	warningAry.Add({ col,row,dir });
-	turnOnTime = timer->GetCurTime();
-//	isTurnOn = true;
-	//SetCurInfo(col, row, dir);
+	
+	//turnOnTime = timer->GetCurTime();
+	turnOnTime = Timer::GetInstance().GetTIme();
 
 	//UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnBoxes()"));
 	
@@ -69,16 +69,16 @@ void WarningBoxManager::TurnOnBoxes(int32 col,int32 row,int32 dir)
 	}
 }
 
-void WarningBoxManager::CheckTurnOffBox()//안씀
+void WarningBoxManager::CheckTurnOffBox()
 {;
 	if (warningAry.Num() == 0)
 	{
 		return;
 	}
 
-	if (timer->GetCurTime() > turnOnTime + duration)
+	if (Timer::GetInstance().GetTIme() > turnOnTime + duration)
 	{
-		UE_LOG(LogTemp, Log, TEXT("&& AWarningBox::CheckTurnOffBox() %d"), turnOnTime);
+		//UE_LOG(LogTemp, Log, TEXT("&& AWarningBox::CheckTurnOffBox() %d"), turnOnTime);
 		TurnOffBoxes();
 	}
 }
@@ -91,7 +91,7 @@ void WarningBoxManager::TurnOffBoxes()
 			return;
 		if (boxAry[i]->GetRow() == warningAry[0][1] || boxAry[i]->GetCol() == warningAry[0][0])
 		{
-			UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOffBoxes()"));
+			//UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOffBoxes()"));
 			boxAry[i]->SetActorHiddenInGame(true);
 		}
 	}
@@ -100,7 +100,7 @@ void WarningBoxManager::TurnOffBoxes()
 
 void WarningBoxManager::TurnOnSpawner()
 {
-	UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnSpawner()"));
+	//UE_LOG(LogTemp, Log, TEXT("@@ WarningBoxManager::TurnOnSpawner()"));
 	if (warningAry.Num() == 0)//TurnOnBoxes 가 테스트에서는 과하게 많이 불려서 이거 검사함
 		return;
 
@@ -109,7 +109,7 @@ void WarningBoxManager::TurnOnSpawner()
 		
 		if (spawnerAry[i]->GetColNum()  == warningAry[0][0] && spawnerAry[i]->GetRowNum() == warningAry[0][1] && spawnerAry[i]->GetSpawnerDir() == warningAry[0][2])
 		{
-			UE_LOG(LogTemp, Log, TEXT("@@ CALL SpawnMonster()"));
+			//UE_LOG(LogTemp, Log, TEXT("@@ CALL SpawnMonster()"));
 			spawnerAry[i]->SpawnMonster();
 		}
 	}

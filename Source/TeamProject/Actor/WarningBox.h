@@ -41,7 +41,6 @@ public:
 	//void virtual NotifyActorBeginOverlap(AActor* OtherActor)override;
 
 private:
-	WarningBoxManager* boxManager;
 	Timer* timer;
 
 	//bool bHidden;

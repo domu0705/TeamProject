@@ -7,6 +7,8 @@
 #include "Internationalization/Text.h"
 #include "Internationalization/Internationalization.h"
 #include "../Character/TPCharacter.h"
+#include "../Core/Timer.h"
+#include "../Manager/WarningBoxManager.h"
 
 SocketManager::SocketManager()
 {
@@ -15,9 +17,16 @@ SocketManager::SocketManager()
 
 SocketManager::~SocketManager()
 {
-
 }
 
+void SocketManager::Init()
+{
+	otherCharacterAry.Empty();
+	characterAry.Empty();
+	curOtherCharacterNum = 0;
+}
+
+void EndPlay();
 //지정된 주소로 연결
 bool SocketManager::ConnectServer()
 {
@@ -25,7 +34,7 @@ bool SocketManager::ConnectServer()
 	socket->SetNonBlocking();
 	socket->SetNoDelay();
 
-	FString address = TEXT("127.0.0.1");//TEXT("172.28.35.237");
+	FString address = TEXT("172.28.35.237");//TEXT("172.28.35.237");
 	FIPv4Address ip;
 	FIPv4Address::Parse(address, ip);
 
@@ -34,6 +43,8 @@ bool SocketManager::ConnectServer()
 	addr->SetPort(PORT);
 
 	if (socket->Connect(*addr)) {
+		socket->SetNonBlocking();
+		socket->SetNoDelay();
 		isConnected = true;
 		return true;
 	}
@@ -127,7 +138,7 @@ void SocketManager::interpretPacket(char* packet)
 
 	switch (packetID)
 	{
-	case Packet::PacketID::LOGINRESULT:
+	case Packet::PacketID::LOGINRESULT://로그인 결과
 	{
 		Packet::LoginResultPacket p = *reinterpret_cast<Packet::LoginResultPacket*> (packet);
 		bool isLogInSuccess = p.LoginSuccess;
@@ -143,9 +154,9 @@ void SocketManager::interpretPacket(char* packet)
 
 	}
 	break;
-	case Packet::PacketID::GAMESTART:
+	case Packet::PacketID::GAMESTART://인원수가 충분히 모였을 시 게임 시작
 	{
-		UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | GAMESTART"));
+		//UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | GAMESTART"));
 		Packet::GameStartPacket p = *reinterpret_cast<Packet::GameStartPacket*> (packet);
 		/**/
 		Packet::PlayerInfo playerAry = p.playerArr;
@@ -158,26 +169,27 @@ void SocketManager::interpretPacket(char* packet)
 			FVector rotVec = FVector(p.playerArr.rotVec[0], p.playerArr.rotVec[1], p.playerArr.rotVec[2]);
 			FRotator rotFromVec = rotVec.Rotation();
 			SocketManager::GetInstance().getMyCharacter()->SetActorLocation(FVector(p.playerArr.posVec[0], p.playerArr.posVec[1], p.playerArr.posVec[2]));
+			auto loc = SocketManager::GetInstance().getMyCharacter()->GetActorLocation();
 			SocketManager::GetInstance().getMyCharacter()->SetActorRotation(rotFromVec);
 		}
 		else 
 		{
-			int32 curPlayerNum = SocketManager::GetInstance().GetCharacterAry().Num();
-			ATPCharacter* newCharacter = SocketManager::GetInstance().GetOtherCharacter(curPlayerNum);
+			ATPCharacter* newCharacter = SocketManager::GetInstance().GetOtherCharacter(curOtherCharacterNum);
 			SocketManager::GetInstance().SetCharacterAry(p.playerArr.playerIdx, newCharacter);
 			FVector rotVec = FVector(p.playerArr.rotVec[0], p.playerArr.rotVec[1], p.playerArr.rotVec[2]);
 			FRotator rotFromVec = rotVec.Rotation();
 			newCharacter->SetActorLocation(FVector(p.playerArr.posVec[0], p.playerArr.posVec[1], p.playerArr.posVec[2]));
 			newCharacter->SetActorRotation(rotFromVec);
+			++curOtherCharacterNum;
 		}
 		
 	}
 	break;
-	case Packet::PacketID::PLAY:
+	case Packet::PacketID::PLAY://타 플레이어 위치 동기화
 	{
-		UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | PLAY"));
+		UE_LOG(LogTemp, Log, TEXT("@@ SocketManager::interpretPacket() | PLAY index = %d "), testIdx);
+		++testIdx;
 		Packet::PlayPacket p = *reinterpret_cast<Packet::PlayPacket*> (packet);
-		/**/
 		ATPCharacter* movedCharacter = SocketManager::GetInstance().GetCharacterAry(p.playerIdx);
 		if (!movedCharacter)
 			return;
@@ -185,6 +197,22 @@ void SocketManager::interpretPacket(char* packet)
 		FVector rotVec = FVector(p.rotVec[0], p.rotVec[1], p.rotVec[2]);
 		FRotator rotFromVec = rotVec.Rotation();
 		movedCharacter->SetActorRotation(rotFromVec);
+	}
+	break;
+	case Packet::PacketID::SPAWN://투왕 스폰
+	{
+		//UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | SPAWN"));
+		Packet::SpawnPacket p = *reinterpret_cast<Packet::SpawnPacket*> (packet);
+		WarningBoxManager::GetInstance().TurnOnBoxes((int32)(p.colIdx), (int32)(p.rowIdx), (int32)(p.directionIdx));
+		//알맞은 스포너 활성화
+
+	}
+	break;
+	case Packet::PacketID::TIMER://서버 시간 받아오기
+	{
+		//UE_LOG(LogTemp, Log, TEXT("!!!!!!!!!!!SocketManager::interpretPacket() | TIMER"));
+		Packet::TimerPacket p = *reinterpret_cast<Packet::TimerPacket*> (packet);
+		Timer::GetInstance().SetTime((int32)(p.timeSecond));
 	}
 	break;
 	default:
@@ -209,7 +237,7 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 		int32 bytesSents = 0;
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
 
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
+		//UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
 
 		break;
 	}

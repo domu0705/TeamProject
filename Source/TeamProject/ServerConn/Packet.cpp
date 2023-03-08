@@ -37,7 +37,25 @@ namespace Packet
 		}
 	}
 
-	// 클라
+	TimerPacket::TimerPacket(unsigned short in_timeSecond)
+	{
+		packetSize = sizeof(unsigned short) + sizeof(PacketID) + sizeof(unsigned short);
+		packetID = PacketID::TIMER;
+		timeSecond = in_timeSecond;
+	}
+
+	SpawnPacket::SpawnPacket(bool in_IsHorizontal, unsigned short in_lineIdx, bool in_directionFlag)
+	{
+		packetSize = sizeof(unsigned short) + sizeof(PacketID) + (sizeof(unsigned short) * 3);
+		packetID = PacketID::SPAWN;
+		rowIdx = in_IsHorizontal ? in_lineIdx : 0;
+		colIdx = in_IsHorizontal ? 0 : in_lineIdx;
+		directionIdx = in_directionFlag ? 0 : 1;
+	}
+
+	//////////
+	// 클라 //
+	//////////
 	UpdatePacket::UpdatePacket(float* inPosVec, float* inRotVec)
 	{
 		packetSize = sizeof(unsigned short) + sizeof(PacketID) + (sizeof(float) * 6);

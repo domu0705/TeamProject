@@ -20,35 +20,31 @@ ATeamProjectGameMode::ATeamProjectGameMode()
 
 	//PlayerControllerClass = ATPPlayerController::StaticClass();
 
-	warningBoxManager = WarningBoxManager::GetInstance();
 	CallClassInit();
-
 
 }
 
 void ATeamProjectGameMode::CallClassInit()
 {
-	warningBoxManager->Init();
+	WarningBoxManager::GetInstance().Init();
+	SocketManager::GetInstance().Init();
 }
 
 void ATeamProjectGameMode::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	//if (!SocketManager)
-	//	return;
+	//	return;-gam
 	SocketManager::GetInstance().Tick();
 	//UE_LOG(LogTemp, Log, TEXT("@@ATeamProjectGameMode::Tick()"));
-	warningBoxManager->Tick();
+	WarningBoxManager::GetInstance().Tick(DeltaSeconds);
 }
 
 void ATeamProjectGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	WarningBoxManager* WarningBoxManager = WarningBoxManager::GetInstance();
-	if (!WarningBoxManager)
-		return;
-	WarningBoxManager->BeginPlay();
+	WarningBoxManager::GetInstance().BeginPlay();
 
 	UserWidgetManager* UserWidgetManager = UserWidgetManager::GetInstance();
 	if (!UserWidgetManager)

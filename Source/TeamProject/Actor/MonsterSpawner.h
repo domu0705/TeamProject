@@ -18,7 +18,6 @@ public:
 	AMonsterSpawner();
 
 private:
-	WarningBoxManager* WarningBoxManager;
 
 protected:
 	// Called when the game starts or when spawned

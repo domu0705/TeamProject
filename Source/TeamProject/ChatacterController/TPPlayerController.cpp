@@ -3,3 +3,7 @@
 
 #include "TPPlayerController.h"
 
+void ATPPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+}

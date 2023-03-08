@@ -9,7 +9,6 @@ ATPCharacter::ATPCharacter()
 	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::ATPCharacter()"));
  	// character가 매 프레임마다 Tick()을 호출. 꺼도 됨
 	PrimaryActorTick.bCanEverTick = true;
-	timer = Timer::GetInstance();
 	SetStat();
 
 	//overlap확인을 위한 capsule component 생성
@@ -34,6 +33,9 @@ void ATPCharacter::BeginPlay()
 		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::BeginPlay() | Set other Character"));
 		SocketManager::GetInstance().SetOtherCharacter(this);
 	}
+
+	
+
 }
 
 // Called every frame

@@ -6,7 +6,7 @@
 // Sets default values
 AWarningBox::AWarningBox()//여기서 초기화 안됨. 이 이후에 블프 값으로 다시 초기화 됨
 {
-	UE_LOG(LogTemp, Log, TEXT("** AWarningBox::AWarningBox()"));
+	//UE_LOG(LogTemp, Log, TEXT("** AWarningBox::AWarningBox()"));
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -15,8 +15,7 @@ AWarningBox::AWarningBox()//여기서 초기화 안됨. 이 이후에 블프 값
 	RootComponent = body;//없어도 됨
 	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox() %s"), *this->GetName())
 
-	boxManager = WarningBoxManager::GetInstance();
-	timer = Timer::GetInstance();
+	//timer = Timer::GetInstance();
 	turnOnDuration = 3;
 }
 
@@ -24,7 +23,7 @@ AWarningBox::AWarningBox()//여기서 초기화 안됨. 이 이후에 블프 값
 void AWarningBox::BeginPlay()
 {
 	Super::BeginPlay();
-	boxManager->AddBoxToAry(this);
+	WarningBoxManager::GetInstance().AddBoxToAry(this);
 
 	//isTurnOn = false;
 	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::BeginPlay()"));
@@ -45,9 +44,7 @@ void AWarningBox::PostInitializeComponents()
 }
 void AWarningBox::TurnOnBox()
 {
-	//turnOnTime = timer.GetTIme();
-	turnOnTime = timer->GetCurTime();
-	UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::TurnOnBox() %s %d %d"), *this->GetName(), turnOnTime, timer->GetCurTime());
+	turnOnTime = Timer::GetInstance().GetTIme();// timer->GetCurTime();
 	SetActorHiddenInGame(false);
 	isTurnOn = true;
 }
@@ -58,7 +55,7 @@ void AWarningBox::CheckTurnOffBox()
 	if (isTurnOn == false)
 		return;
 	//UE_LOG(LogTemp, Log, TEXT("@@ AWarningBox::CheckTurnOffBox() %s %d"), *this->GetName(), turnOnTime);
-	if (timer->GetCurTime() > turnOnTime + turnOnDuration)
+	if (Timer::GetInstance().GetTIme() > turnOnTime + turnOnDuration)
 	{
 		TurnOffBox();
 	}
@@ -67,7 +64,6 @@ void AWarningBox::CheckTurnOffBox()
 //warning box 를 끔
 void AWarningBox::TurnOffBox()
 {
-	UE_LOG(LogTemp, Log, TEXT("## AWarningBox::TurnOffBox()"), *this->GetName(), turnOnTime);
 	SetActorHiddenInGame(true);
 	isTurnOn = false;
 	//boxManager->TurnOnSpawner();

@@ -32,6 +32,7 @@ public:
 private:
 	float updateDelay;
 	float curDelayedTime;
+	int32 a = 0;
 protected:
 	virtual void BeginPlay() override;
 	//virtual void Tick(float DeltaTime) override;

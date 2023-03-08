@@ -13,7 +13,6 @@ class TEAMPROJECT_API APacketBox : public AActor
 	GENERATED_BODY()
 private:
 	bool isOn;
-	WarningBoxManager* boxManager;
 public:	
 	// Sets default values for this actor's properties
 	APacketBox();

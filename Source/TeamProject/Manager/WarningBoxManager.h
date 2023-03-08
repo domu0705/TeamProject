@@ -21,12 +21,18 @@ private:
 	Timer* timer;
 	int32 	turnOnTime ;//warning box �� ���� �ð�
 	int32 duration;//warning box �� �����ִ� �ð�
+
+	//델타타임으로 누적시간 확인
 	bool isTurnOn;
 
 public:
-	static WarningBoxManager* GetInstance() {
+	/*static WarningBoxManager* GetInstance() {
 		static WarningBoxManager s;
 		return &s;
+	}*/
+	static WarningBoxManager& GetInstance() {
+		static WarningBoxManager i;
+		return i;
 	}
 
 	WarningBoxManager();
@@ -34,7 +40,7 @@ public:
 
 	void Init();//gamemodebase �����ڿ��� ȣ��
 	void BeginPlay();
-	void Tick();
+	void Tick(float DeltaSeconds);
 	void AddBoxToAry(AWarningBox* box);
 	void AddMonsterSpawnerToAry(AMonsterSpawner* monster);
 	void TurnOnBoxes(int32 col, int32 row, int32 dir);

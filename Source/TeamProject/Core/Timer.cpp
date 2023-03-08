@@ -28,12 +28,12 @@ int32 Timer::GetTIme()
 	return curTime;
 }
 
-int32 Timer::GetCurTime()
-{
-	time_t timer = time(NULL);
-	struct tm* t = localtime(&timer);
-
-	int32 sec = t->tm_sec;
-	//UE_LOG(LogTemp, Log, TEXT("@@ Timer::GetCurTime() sec %d "),sec)
-	return sec;
-}
+//int32 Timer::GetCurTime()
+//{
+//	time_t timer = time(NULL);
+//	struct tm* t = localtime(&timer);
+//
+//	int32 sec = t->tm_sec;
+//	//UE_LOG(LogTemp, Log, TEXT("@@ Timer::GetCurTime() sec %d "),sec)
+//	return sec;
+//}

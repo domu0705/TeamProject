@@ -50,7 +50,7 @@ ATeamProjectCharacter::ATeamProjectCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
-	updateDelay = 0.5f;
+	updateDelay = 0.1f;
 	curDelayedTime = 0.0f;
 
 	
@@ -65,7 +65,6 @@ void ATeamProjectCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UE_LOG(LogTemp, Log, TEXT("@@  ATeamProjectCharacter::Tick()"));
 	curDelayedTime += DeltaTime;
 }
 
@@ -172,6 +171,7 @@ void ATeamProjectCharacter::SendPosRotToServer()
 		return;
 	if (SocketManager::GetInstance().GetIsConnected())
 	{
+		UE_LOG(LogTemp, Log, TEXT("UPDATE packet %d"),++a);
 		PacketManager& PacketManager = PacketManager::GetInstance();
 		FVector curPosVec = this->GetActorLocation();
 		FVector curRotVec = this->GetActorRotation().Vector();

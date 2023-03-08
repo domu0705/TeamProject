@@ -13,5 +13,8 @@ UCLASS()
 class TEAMPROJECT_API ATPPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	virtual void BeginPlay() override;
 };

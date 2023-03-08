@@ -44,12 +44,13 @@ public:
 		static SocketManager i;
 		return i;
 	}
-
+	int32 testIdx = 0;
 	bool isConnected;
 
 	SocketManager();
 	~SocketManager();
-
+	int32 curOtherCharacterNum;
+	void Init();
 	void Tick();
 	bool ConnectServer();
 	//void Send(FString& string);

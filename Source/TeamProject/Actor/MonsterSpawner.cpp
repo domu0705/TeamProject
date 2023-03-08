@@ -11,15 +11,13 @@ AMonsterSpawner::AMonsterSpawner()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	//body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BODY"));
-
-	WarningBoxManager = WarningBoxManager::GetInstance();
 }
 
 // Called when the game starts or when spawned
 void AMonsterSpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	WarningBoxManager->AddMonsterSpawnerToAry(this);
+	WarningBoxManager::GetInstance().AddMonsterSpawnerToAry(this);
 	//SpawnMonster();
 }
 
