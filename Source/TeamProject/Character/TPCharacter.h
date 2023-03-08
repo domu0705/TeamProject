@@ -40,9 +40,11 @@ protected:
 	//로컬에서 나와 타 플레이어를 구분하기 위함
 	UPROPERTY(EditAnywhere)
 		FString nickName;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor)override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Colliders")
 		class UCapsuleComponent* overlapCapsule;
@@ -52,7 +54,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor);
 	void SetStat();
 	void GetDamage();
 	void UpdateHP();

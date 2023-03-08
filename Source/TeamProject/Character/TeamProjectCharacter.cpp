@@ -51,9 +51,7 @@ ATeamProjectCharacter::ATeamProjectCharacter()
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 	updateDelay = 0.1f;
-	curDelayedTime = 0.0f;
-
-	
+	curDelayedTime = 0.0f;	
 }
 
 void ATeamProjectCharacter::BeginPlay()

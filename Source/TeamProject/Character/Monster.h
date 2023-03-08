@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "../ChatacterController/MonsterController.h"
 #include "TeamProjectCharacter.h"
+#include "Components/CapsuleComponent.h"
 #include "Monster.generated.h"
 
 UCLASS()
@@ -20,6 +21,9 @@ public:
 private:
 	bool isMoving;
 protected:
+	UPROPERTY(VisibleAnywhere, Category = "Colliders")
+		class UCapsuleComponent* overlapCapsule;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
@@ -30,6 +34,5 @@ public:
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	//void virtual NotifyActorBeginOverlap(AActor* OtherActor)override;
 	void MoveFoward();
 };

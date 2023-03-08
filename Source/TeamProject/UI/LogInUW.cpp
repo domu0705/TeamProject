@@ -15,7 +15,7 @@ void ULogInUW::NativeConstruct()
 		return;
 	PortBtn->OnClicked.AddDynamic(this, &ULogInUW::PortConnBtnClicked);
 
-	//TurnOffUW(); //테스트 시 로그인 UI건너뛰기
+	TurnOffUW(); //테스트 시 로그인 UI건너뛰기
 	//LogInBtn->SetVisibility(ESlateVisibility::Collapsed);
 }
 

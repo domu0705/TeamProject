@@ -20,6 +20,11 @@ AMonster::AMonster()
 	}
 	isMoving = false;
 
+	//overlap확인을 위한 capsule component 생성
+	overlapCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("MONSTERCAPSUPECOMPONENT"));
+	overlapCapsule->InitCapsuleSize(75.0f, 96.f);
+	overlapCapsule->SetCollisionProfileName(FName("MonsterOverlap"));
+
 }
 
 void AMonster::PostInitializeComponents()
@@ -62,7 +67,7 @@ void AMonster::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	FString  name = OtherActor->GetName();
-	//UE_LOG(LogTemp, Log, TEXT("!! AMonster::NotifyActorBeginOverlap name = %s"), *name);
+	UE_LOG(LogTemp, Log, TEXT("!! AMonster::NotifyActorBeginOverlap name = %s"), *name);
 }
 
 void AMonster::MoveFoward()
@@ -77,12 +82,8 @@ void AMonster::MoveFoward()
 	const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, true);
 }
-/*
-void AMonster::NotifyActorBeginOverlap(AActor* OtherActor)
-{
 
-}
-*/
+
 
 /*
 void ATeamProjectCharacter::MoveForward(float Value)

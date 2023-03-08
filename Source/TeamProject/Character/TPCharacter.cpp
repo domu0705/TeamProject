@@ -13,8 +13,9 @@ ATPCharacter::ATPCharacter()
 
 	//overlap확인을 위한 capsule component 생성
 	overlapCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CAPSUPECOMPONENT"));
-	overlapCapsule->InitCapsuleSize(74.f, 96.f);
-	overlapCapsule->SetCollisionProfileName(FName("Monster"));
+	overlapCapsule->InitCapsuleSize(75.f, 96.f);
+	overlapCapsule->SetCollisionProfileName(FName("PlayerOverlap"));
+	overlapCapsule->SetupAttachment(RootComponent);
 
 }
 
@@ -45,6 +46,24 @@ void ATPCharacter::Tick(float DeltaTime)
 
 }
 
+
+void ATPCharacter::NotifyActorBeginOverlap(AActor* OtherActor)//collision preset ->overlapall로 변경
+{
+	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() "));
+	//충돌한 물체가 몬스터인지 검사
+	AMonster* monster = Cast<AMonster>(OtherActor);
+	if (monster)
+	{
+		// Damage Process
+		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is monster!!!!!!!!"));
+	}
+
+	ATPCharacter* character = Cast<ATPCharacter>(OtherActor);
+	if (character)
+	{
+		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is character!!!!!!!!"));
+	}
+}
 // Called to bind functionality to input
 void ATPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -96,15 +115,4 @@ void ATPCharacter::UpdateHP()
 	if (!UserWidgetManager)
 		return;
 	UserWidgetManager->UpdateHP(CurrentHP);
-}
-
-
-void ATPCharacter::NotifyActorBeginOverlap(AActor* OtherActor)//collision preset ->overlapall로 변경
-{
-	//충돌한 물체가 몬스터인지 검사
-	AMonster* Projectile = Cast<AMonster>(OtherActor);
-	if (Projectile)
-	{
-		// Damage Process
-	}
 }
