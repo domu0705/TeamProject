@@ -3,6 +3,7 @@
 #include "TPCharacter.h"
 #include "CharacterStatComponent.h"
 
+
 // Sets default values
 ATPCharacter::ATPCharacter()
 {
@@ -17,6 +18,23 @@ ATPCharacter::ATPCharacter()
 	overlapCapsule->SetCollisionProfileName(FName("PlayerOverlap"));
 	overlapCapsule->SetupAttachment(RootComponent);
 
+	//머리 위 위젯 생성
+	//FString path = "/Game/BP_UI/BP_Head";
+	//LobbyUWClass = ConstructorHelpersInternal::FindOrLoadClass(path, ULogInUW::StaticClass());
+
+
+
+
+	headUW = CreateDefaultSubobject<UWidgetComponent>(TEXT("HEADUW"));
+	headUW->SetupAttachment(GetMesh());
+	headUW->SetRelativeLocation(FVector(0.0f, 0.0f, 180.0f));
+	headUW->SetWidgetSpace(EWidgetSpace::Screen);
+	static ConstructorHelpers::FClassFinder<UUserWidget> UI_HUD(TEXT("/Game/BP_UI/BP_Head"));
+	if (UI_HUD.Succeeded())
+	{
+		headUW->SetWidgetClass(UI_HUD.Class);
+		headUW->SetDrawSize(FVector2D(150.0f, 50.0f));
+	}
 }
 
 // Called when the game starts or when spawned
@@ -42,33 +60,38 @@ void ATPCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-
-void ATPCharacter::NotifyActorBeginOverlap(AActor* OtherActor)//collision preset ->overlapall로 변경
-{
 	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() "));
-	//충돌한 물체가 몬스터인지 검사
-	AMonster* monster = Cast<AMonster>(OtherActor);
-	if (monster)
-	{
-		FVector monsterPos = OtherActor->GetActorLocation();
-		// Damage Process
-		FVector testPlayerPos = this->GetActorLocation();
-		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is monster!!!!!!!!"));
-		PacketManager& PacketManager = PacketManager::GetInstance();
-		PacketManager.MakePMColliderRequestPacket(monsterPos);
-	}
 
-	ATPCharacter* character = Cast<ATPCharacter>(OtherActor);
-	if (character)
+	TSet<AActor*> overlappedActors;
+	this->GetOverlappingActors(overlappedActors);
+
+	for (auto otherActor : overlappedActors)
 	{
-		UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is character!!!!!!!!"));
-		unsigned short characterIdx = character->GetIndex();
-		PacketManager& PacketManager = PacketManager::GetInstance();
-		PacketManager.MakePPColliderRequestPacket(characterIdx);
+		//충돌한 물체가 몬스터인지 검사
+		AMonster* monster = Cast<AMonster>(otherActor);
+		if (monster)
+		{
+			FVector monsterPos = otherActor->GetActorLocation();
+			// Damage Process
+			FVector testPlayerPos = this->GetActorLocation();
+
+			UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is monster!!!!!!!!"));
+
+			//PacketManager& PacketManager = PacketManager::GetInstance();
+			//PacketManager.MakePMColliderRequestPacket(monsterPos);
+		}
+
+		ATPCharacter* character = Cast<ATPCharacter>(otherActor);
+		if (character)
+		{
+			UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is character!!!!!!!!"));
+			unsigned short characterIdx = character->GetIndex();
+			//PacketManager& PacketManager = PacketManager::GetInstance();
+			//PacketManager.MakePPColliderRequestPacket(characterIdx);
+		}
 	}
 }
+
 // Called to bind functionality to input
 void ATPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {

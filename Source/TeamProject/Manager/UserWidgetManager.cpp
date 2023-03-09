@@ -11,6 +11,25 @@ UserWidgetManager::~UserWidgetManager()
 {
 }
 
+void UserWidgetManager::CreateHeadUW(UWorld* world)
+{
+	if (!world)
+		return;
+
+	FString path = "/Game/BP_UI/BP_Head";
+	HeadUWClass = ConstructorHelpersInternal::FindOrLoadClass(path, ULogInUW::StaticClass());
+	if (!HeadUWClass)
+		return;
+
+	HeadUW = Cast<UHeadUW>(CreateWidget<UUserWidget>(world, LobbyUWClass));
+	if (HeadUW)
+	{
+		HeadUW->AddToViewport();
+		//OnOffLobbyView(false);
+	}
+}
+
+
 void UserWidgetManager::CreateLogInUW(UWorld* world)
 {
 	if (!world)

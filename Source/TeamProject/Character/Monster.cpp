@@ -80,7 +80,9 @@ void AMonster::MoveFoward()
 
 	FRotator Rotation = controller->GetControlRotation();
 	const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
-	AddMovementInput(Direction, true);
+	//AddMovementInput(Direction, true);
+	FVector curPos = GetActorLocation();
+	SetActorLocation(curPos+ Direction);
 }
 
 

@@ -8,6 +8,7 @@
 #include "../Core/Timer.h"
 #include "../Manager/UserWidgetManager.h"
 #include "../Character/Monster.h"
+#include "Components/WidgetComponent.h"
 #include "TPCharacter.generated.h"
 
 UCLASS()
@@ -34,11 +35,12 @@ private:
 	//무적 지속 기간
 	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
 		int32 superDuration;
+
 	//서버에서 지정하는 캐릭터 구분 인덱스
-	UPROPERTY(VisibleInstanceOnly, Category = Stat, Meta = (AllowPirvateAccess = true))
-		unsigned short index;
-	//UPROPERTY(VisibleAnywhere, Category = Stat)
-	//	class UCharacterStatComponent* CharacterStat;
+	unsigned short index;
+
+	UPROPERTY(VisibleAnywhere, Category = Stat)
+		class UCharacterStatComponent* CharacterStat;
 
 protected:
 	//로컬에서 나와 타 플레이어를 구분하기 위함
@@ -48,13 +50,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor)override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Colliders")
 		class UCapsuleComponent* overlapCapsule;
 
 public:	
-	// Called every frame
+	UPROPERTY(VIsibleAnywhere, Category = UI)
+		class UWidgetComponent* headUW;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

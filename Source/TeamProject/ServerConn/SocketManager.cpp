@@ -226,8 +226,8 @@ void SocketManager::interpretPacket(char* packet)
 
 		//충돌함. 데미지 받기
 		UE_LOG(LogTemp, Log, TEXT("@@ SocketManager::interpretPacket() | PMCOLLIDERESULT | isCollided"));
-		ATPCharacter* myCharacter = getMyCharacter();
-		myCharacter->GetDamage();
+		ATPCharacter* character = getMyCharacter();
+		character->GetDamage();
 
 		//충돌해서 튕겨져 나가기
 		//movedCharacter->SetActorRotation(rotFromVec);

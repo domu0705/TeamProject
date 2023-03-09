@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../UI/HeadUW.h"
 #include "../UI/LogInUW.h"
 #include "../UI/InGameUW.h"
 #include "Blueprint/UserWidget.h"
@@ -13,8 +14,9 @@ class TEAMPROJECT_API UserWidgetManager
 private:
 	TSubclassOf<UUserWidget> LobbyUWClass;
 	TSubclassOf<UUserWidget> InGameUWClass;
+	TSubclassOf<UUserWidget> HeadUWClass;
 
-
+	UHeadUW* HeadUW;
 	ULogInUW* LoginUW;
 	UInGameUW* InGameUW;
 
@@ -27,7 +29,9 @@ public:
 	UserWidgetManager();
 	~UserWidgetManager();
 
+	void CreateHeadUW(UWorld* world);
 	void CreateLogInUW(UWorld* world);
 	void CreateInGameUW(UWorld* world);
 	void UpdateHP(int32 inCurrentHP);
+
 };
