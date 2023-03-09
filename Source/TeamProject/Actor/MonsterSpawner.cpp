@@ -55,10 +55,10 @@ void AMonsterSpawner::SpawnMonster()
 	FVector spawnLocation = GetActorLocation();
 	spawnLocation.Z += 30.f;
 	FRotator spawnRotation = GetActorRotation();
-	//spawnRotation.Yaw += 90.0f;
 	UE_LOG(LogTemp, Log, TEXT("@@ spawnRotation = "));
 	AMonster* newMonster = GetWorld()->SpawnActor<AMonster>(monsterClass, spawnLocation, spawnRotation, SpawnParams);
 	if (!newMonster) return;
+	newMonster->SetIsHorizontal(colNum != 0);
 	newMonster->MoveFoward();
 }
 

@@ -20,6 +20,10 @@ public:
 
 private:
 	bool isMoving;
+	//스포너에서 초기화함
+	bool isHorizontal;
+	float speed;
+
 protected:
 	UPROPERTY(VisibleAnywhere, Category = "Colliders")
 		class UCapsuleComponent* overlapCapsule;
@@ -32,6 +36,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	void SetIsHorizontal(bool inIsHorizontal) { isHorizontal = inIsHorizontal; }
+	bool GetIsHorizontal() { return isHorizontal; }
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void MoveFoward();

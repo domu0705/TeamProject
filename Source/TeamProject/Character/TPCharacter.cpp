@@ -77,8 +77,8 @@ void ATPCharacter::Tick(float DeltaTime)
 
 			UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() | is monster!!!!!!!!"));
 
-			//PacketManager& PacketManager = PacketManager::GetInstance();
-			//PacketManager.MakePMColliderRequestPacket(monsterPos);
+			PacketManager& PacketManager = PacketManager::GetInstance();
+			PacketManager.MakePMColliderRequestPacket(monsterPos);
 		}
 
 		ATPCharacter* character = Cast<ATPCharacter>(otherActor);

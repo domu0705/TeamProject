@@ -252,6 +252,7 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 	{
 		Packet::UpdatePacket p = *(Packet::UpdatePacket*)(packet);
 		int32 bytesSents = 0;
+		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), sizeof(p));
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
 
 		//UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);

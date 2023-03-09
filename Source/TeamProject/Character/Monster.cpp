@@ -19,12 +19,12 @@ AMonster::AMonster()
 		GetMesh()->SetSkeletalMesh(SK_MOSTER.Object);
 	}
 	isMoving = false;
-
 	//overlap확인을 위한 capsule component 생성
 	overlapCapsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("MONSTERCAPSUPECOMPONENT"));
 	overlapCapsule->InitCapsuleSize(75.0f, 96.f);
 	overlapCapsule->SetCollisionProfileName(FName("MonsterOverlap"));
 
+	speed = 1.0f;
 }
 
 void AMonster::PostInitializeComponents()
@@ -81,8 +81,22 @@ void AMonster::MoveFoward()
 	FRotator Rotation = controller->GetControlRotation();
 	const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
 	//AddMovementInput(Direction, true);
+
+	/*
 	FVector curPos = GetActorLocation();
-	SetActorLocation(curPos+ Direction);
+	if (isHorizontal)
+	{
+		float dir = (Direction.Y > 0) ? 1 : -1;
+		SetActorLocation(FVector(curPos.X, curPos.Y + dir*speed, curPos.Z));
+	}
+	else
+	{
+		float dir = (Direction.X > 0) ? 1 : -1;
+		SetActorLocation(FVector(curPos.X + dir * speed, curPos.Y , curPos.Z));
+	}
+	*/
+	//SetActorLocation(curPos + Direction);
+	AddMovementInput(Direction, true);
 }
 
 
