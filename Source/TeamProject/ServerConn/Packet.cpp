@@ -115,7 +115,7 @@ namespace Packet
 
 	PMColliderRequestPacket::PMColliderRequestPacket(float* inMonsterPos)
 	{
-		packetSize = sizeof(unsigned short) + sizeof(PacketID) + PacketProtocol::NICKNAME_MAXSIZE;
+		packetSize = sizeof(unsigned short) + sizeof(PacketID) + (sizeof(float) * 3);
 		packetID = PacketID::PMCOLLIDEREQUEST;
 
 		for (int i = 0; i < 3; i++)
@@ -126,7 +126,7 @@ namespace Packet
 
 	PPColliderRequestPacket::PPColliderRequestPacket(unsigned short inOppoPlayerIdx)
 	{
-		packetSize = sizeof(unsigned short) + sizeof(PacketID) + PacketProtocol::NICKNAME_MAXSIZE;
+		packetSize = sizeof(unsigned short) + sizeof(PacketID) + sizeof(unsigned short);
 		packetID = PacketID::PPCOLLIDEREQUEST;
 		oppoPlayerIdx = inOppoPlayerIdx;
 	}

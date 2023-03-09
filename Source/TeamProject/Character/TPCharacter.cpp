@@ -6,6 +6,8 @@
 
 // Sets default values
 ATPCharacter::ATPCharacter()
+:
+isSuper ( false ) 
 {
 	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::ATPCharacter()"));
  	// character가 매 프레임마다 Tick()을 호출. 꺼도 됨
@@ -35,6 +37,8 @@ ATPCharacter::ATPCharacter()
 		headUW->SetWidgetClass(UI_HUD.Class);
 		headUW->SetDrawSize(FVector2D(150.0f, 50.0f));
 	}
+
+	Time2 = 0.5f;
 }
 
 // Called when the game starts or when spawned
@@ -62,9 +66,19 @@ void ATPCharacter::Tick(float DeltaTime)
 
 	UE_LOG(LogTemp, Log, TEXT("@@ATPCharacter::NotifyActorBeginOverlap() "));
 
+	Time1 += DeltaTime;
+	if (Time1 < Time2)
+	{
+		return;
+	}
+
+	Time1 = 0;
+
 	TSet<AActor*> overlappedActors;
 	this->GetOverlappingActors(overlappedActors);
 
+	if (isSuper)
+		return;
 	for (auto otherActor : overlappedActors)
 	{
 		//충돌한 물체가 몬스터인지 검사
@@ -134,7 +148,37 @@ void ATPCharacter::GetDamage()
 		UE_LOG(LogTemp, Log, TEXT("Current HEalth = %d"), CurrentHP);
 		isSuper = true;
 		UpdateHP();
+		ChangeOpacity();
 	}
+}
+
+void ATPCharacter::ChangeOpacity()
+{
+	FTimerHandle handle;
+	GetWorld()->GetTimerManager().SetTimer(
+		handle,    // TimerHandle
+		FTimerDelegate::CreateLambda([this]()
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Timer"));
+				// 깜빡이는거
+			}),
+		0.5f,
+		true
+	);
+
+	FTimerHandle handle2;
+	GetWorld()->GetTimerManager().SetTimer(
+		handle2,    // TimerHandle
+		FTimerDelegate::CreateLambda( [ this, handle ]() mutable
+			{
+				this->isSuper = false;
+
+				GetWorld()->GetTimerManager().ClearTimer(handle);
+
+			}),
+		1.5f,
+		false
+	);
 }
 
 void ATPCharacter::UpdateHP()

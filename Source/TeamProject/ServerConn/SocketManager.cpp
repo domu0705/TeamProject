@@ -12,7 +12,8 @@
 
 SocketManager::SocketManager()
 {
-
+	colWithMonsterPower = 1000.0f;
+	colWithPlayerPower = 500.0f;
 }
 
 SocketManager::~SocketManager()
@@ -195,7 +196,6 @@ void SocketManager::interpretPacket(char* packet)
 			return;
 		movedCharacter->SetActorLocation(FVector(p.posVec[0], p.posVec[1], p.posVec[2]));
 		FVector rotVec = FVector(p.rotVec[0], p.rotVec[1], p.rotVec[2]);
-
 		FRotator rotFromVec = rotVec.Rotation();
 		movedCharacter->SetActorRotation(rotFromVec);
 	}
@@ -225,12 +225,42 @@ void SocketManager::interpretPacket(char* packet)
 			return;
 
 		//충돌함. 데미지 받기
-		UE_LOG(LogTemp, Log, TEXT("@@ SocketManager::interpretPacket() | PMCOLLIDERESULT | isCollided"));
-		ATPCharacter* character = getMyCharacter();
-		character->GetDamage();
 
-		//충돌해서 튕겨져 나가기
-		//movedCharacter->SetActorRotation(rotFromVec);
+
+
+
+		//충돌한 캐릭터 튕겨보내기
+		FVector v = FVector(p.forceDir[0], p.forceDir[1], p.forceDir[2]);
+		v.Normalize();
+
+
+		//ATPCharacter* collidedCharacter = GetCharacterAry( p.playerIdx);
+		ATPCharacter* character = getMyCharacter();//테스트용
+		if (!character)
+			return;
+		character->GetDamage();
+		character->LaunchCharacter(v * colWithMonsterPower, true, true);
+	}
+	case Packet::PacketID::PPCOLLIDEREQUEST://플-플 간 충돌 확인
+	{
+		UE_LOG(LogTemp, Log, TEXT("@@ SocketManager::interpretPacket() | PPCOLLIDEREQUEST"));
+		Packet::CollideResultPacket p = *reinterpret_cast<Packet::CollideResultPacket*> (packet);
+		bool isCollided = p.IsCollided;
+		if (!isCollided)
+			return;
+
+		//충돌함. 데미지 받기
+		UE_LOG(LogTemp, Log, TEXT("@@ SocketManager::interpretPacket() | PMCOLLIDERESULT | isCollided"));
+		FVector v = FVector(p.forceDir[0], p.forceDir[1], p.forceDir[2]);
+		v.Normalize();
+
+		//ATPCharacter* collidedCharacter = GetCharacterAry( p.playerIdx);
+		ATPCharacter* character = getMyCharacter();//테스트용
+		if (!character)
+			return;
+		//충돌한 캐릭터 튕겨보내기
+		character->GetDamage();
+		character->LaunchCharacter(v * colWithPlayerPower, true, true);
 	}
 	default:
 		break;
@@ -252,10 +282,8 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 	{
 		Packet::UpdatePacket p = *(Packet::UpdatePacket*)(packet);
 		int32 bytesSents = 0;
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), sizeof(p));
+		UE_LOG(LogTemp, Log, TEXT("UPDATE sent msg len :: %d"), sizeof(p));
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
-
-		//UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
 
 		break;
 	}
@@ -265,9 +293,6 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 		int32 bytesSents = 0;
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
 
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
-		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
-
 		break;
 	}
 	case Packet::PacketID::JOINROOMREQUEST:
@@ -275,10 +300,6 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 		Packet::JoinRoomRequestPacket p = *(Packet::JoinRoomRequestPacket*)(packet);
 		int32 bytesSents = 0;
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
-
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
-		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
-
 		break;
 	}
 	case Packet::PacketID::PMCOLLIDEREQUEST:
@@ -287,9 +308,6 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 		int32 bytesSents = 0;
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
 
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
-		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
-
 		break;
 	}
 	case Packet::PacketID::PPCOLLIDEREQUEST:
@@ -297,9 +315,6 @@ void SocketManager::_sendPacket(Packet::PacketID packetType, void* packet)
 		Packet::PPColliderRequestPacket p = *(Packet::PPColliderRequestPacket*)(packet);
 		int32 bytesSents = 0;
 		socket->Send((uint8*)(packet), sizeof(p), bytesSents);
-
-		UE_LOG(LogTemp, Log, TEXT("sent msg len :: %d"), bytesSents);
-		UE_LOG(LogTemp, Log, TEXT("@@@@ send fin"));
 
 		break;
 	}

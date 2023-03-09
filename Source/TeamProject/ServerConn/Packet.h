@@ -143,6 +143,7 @@ namespace Packet
 	{
 		unsigned short packetSize;
 		PacketID packetID;
+		//unsigned short playerIdx;
 		bool IsCollided;
 		float forceDir[3];
 		CollideResultPacket(const bool in_IsCollided, const float* in_forceDir);

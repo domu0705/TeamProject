@@ -31,6 +31,10 @@ private:
 	char savingBuffer[BUFFER_SIZE];
 	int recvBytes = 0;
 	unsigned char prevRecvBytes= 0;
+	
+	//충돌하면 날라가는 힘
+	float colWithMonsterPower;
+	float colWithPlayerPower;
 
 	//TArray<ATPCharacter*> characterAry;
 	FString myID;

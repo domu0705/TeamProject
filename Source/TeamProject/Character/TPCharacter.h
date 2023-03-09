@@ -42,6 +42,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Stat)
 		class UCharacterStatComponent* CharacterStat;
 
+	float Time1 = 0;
+	float Time2 = 0;
+
 protected:
 	//로컬에서 나와 타 플레이어를 구분하기 위함
 	UPROPERTY(EditAnywhere)
@@ -61,6 +64,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void SetStat();
+	void ChangeOpacity();
 	void GetDamage();
 	void UpdateHP();
 	void SetIndex(unsigned short inIndex);
